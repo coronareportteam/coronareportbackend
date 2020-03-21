@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport_backend;
+package de.wevsvirushackathon.coronareport;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
