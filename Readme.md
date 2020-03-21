@@ -6,7 +6,7 @@ Initial DB setup
 * run docker-compose up
 * connect to the database container docker exec -it <CONTAINER_ID> bash
 * su - postgres
-* createuser --interactive --pwpromt
+* createuser --interactive --pwprompt
     * rolename : corona-report-app
 	* password: corona
 	* superuser: yes
