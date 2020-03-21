@@ -1,10 +1,16 @@
 steps:
-  - name: maven:3.6.0-jdk-11-slim
-    entrypoint: 'mvn'
-    args: ['install', '-Pprod', '-DskipTests']
+  - name: 'gcr.io/cloud-builders/mvn'
+    entrypoint: bash
+    args: ['./scripts/build.bash']
+    volumes:
+      - name: 'target'
+        path: /target
   # build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/coronareportteam/coronareportbackend:$COMMIT_SHA', '.']
+    volumes:
+      - name: 'target'
+        path: /target
   # push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/coronareportteam/coronareportbackend:$COMMIT_SHA']
