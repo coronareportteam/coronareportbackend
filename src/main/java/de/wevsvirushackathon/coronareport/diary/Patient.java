@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,7 +17,11 @@ public class Patient {
     private String surename;
     private String firstname;
     private String phone;
+    private String zipCode;
+
     private boolean infected;
+
+    private String healthDepartmentId;
 
     @OneToMany(
             cascade = CascadeType.ALL,
