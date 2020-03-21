@@ -6,7 +6,7 @@ USER user
 WORKDIR /home/user
 
 # TODO: We should have a prod profile that is active in prod (after MVP)
-ENV JAVA_OPTS="-Dspring.profiles.active=default"
+ENV JAVA_OPTS="-Dspring.profiles.active=default,prod"
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar app.jar" ]
 
 # This statement is the last one because it changes frequently
