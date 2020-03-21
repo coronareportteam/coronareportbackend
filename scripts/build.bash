@@ -1,5 +1,5 @@
 # Install/Create .jar
-mvn clean install -DskipTests --quiet 
+mvn clean install -DskipTests 
 
 # Confirm the .jar was created
 ls target/
