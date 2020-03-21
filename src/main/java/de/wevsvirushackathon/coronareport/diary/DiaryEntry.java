@@ -1,9 +1,15 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import lombok.Data;
 
 @Entity
 @Data
@@ -19,4 +25,8 @@ public class DiaryEntry {
 
     private TypeOfContract typeOfContract;
     private TypeOfProtection typeOfProtection;
+    
+    private float bodyTemperature;
+    @ManyToMany
+    private List<Symptom> symptoms;
 }
