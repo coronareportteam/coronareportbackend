@@ -11,12 +11,13 @@ public class Symptom {
 	@GeneratedValue
 	private int id;
 	private String name;
+	boolean isCharacteristic; 
 	
 	
-	
-	Symptom(int id, String name) {
+	Symptom(int id, String name, boolean isCharacteristic) {
 		this.setName(name);
 		this.setId(id);
+		this.isCharacteristic = isCharacteristic;
 	}
 	
 	public int getId() {

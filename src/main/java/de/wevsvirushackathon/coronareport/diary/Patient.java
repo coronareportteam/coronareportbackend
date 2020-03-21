@@ -19,6 +19,7 @@ public class Patient {
     @Id
     @GeneratedValue
     private Long patientId;
+    private String patientCode;
     private String surename;
     private String firstname;
     private String phone;
