@@ -1,19 +1,24 @@
 package de.wevsvirushackathon.coronareport.diary;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Patient {
 
     @Id
     @GeneratedValue
-    private int userId;
+    private Long patientId;
     private String surename;
     private String firstname;
     private String phone;
