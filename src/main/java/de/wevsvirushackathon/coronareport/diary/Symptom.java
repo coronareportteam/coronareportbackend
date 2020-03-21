@@ -14,8 +14,9 @@ public class Symptom {
 	
 	
 	
-	public Symptom(String name) {
+	Symptom(int id, String name) {
 		this.setName(name);
+		this.setId(id);
 	}
 	
 	public int getId() {

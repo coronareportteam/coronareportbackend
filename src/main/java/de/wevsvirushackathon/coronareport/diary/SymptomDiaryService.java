@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SymptomService {
+public class SymptomDiaryService {
 	
 	
-	
-	public SymptomValueEntry storeEntry(SymptomValueEntry entry) {
-		return null;
+	public DiaryEntry storeEntry(DiaryEntry entry) {
+		return entry;
 	}
 	
 	
@@ -20,9 +19,9 @@ public class SymptomService {
 	public List<Symptom> getSymptoms() {
 		List<Symptom> symptoms = new ArrayList<>();
 		
-		symptoms.add(new Symptom("Kopfschmerzen"));
-		symptoms.add(new Symptom("Halsschmerzen"));
-		symptoms.add(new Symptom("Schüttelfrost"));
+		symptoms.add(new Symptom(1, "Kopfschmerzen"));
+		symptoms.add(new Symptom(2, "Halsschmerzen"));
+		symptoms.add(new Symptom(3, "Schüttelfrost"));
 		
 		return symptoms;
 	}
