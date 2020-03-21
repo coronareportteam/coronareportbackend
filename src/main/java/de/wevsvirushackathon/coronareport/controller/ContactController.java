@@ -1,5 +1,9 @@
 package de.wevsvirushackathon.coronareport.controller;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import de.wevsvirushackathon.coronareport.diary.Contact;
 import de.wevsvirushackathon.coronareport.service.ContactService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +29,14 @@ public class ContactController {
                 "attachment; filename=\"" + filename + "\"");
 
         //create a csv writer
-        StatefulBeanToCsv<User> writer = new StatefulBeanToCsvBuilder<User>(response.getWriter())
+        StatefulBeanToCsv<Contact> writer = new StatefulBeanToCsvBuilder<Contact>(response.getWriter())
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                 .withOrderedResults(false)
                 .build();
 
         //write all users to csv file
-        writer.write(userService.listUsers());
+        writer.write(contactService.findAllContacts());
 
     }
 }
