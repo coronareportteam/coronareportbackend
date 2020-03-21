@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @Builder
@@ -21,6 +18,7 @@ public class Contact {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name="patient_id", nullable=false)
     private Patient patient;
 
     private String surename;
