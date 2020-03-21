@@ -29,4 +29,6 @@ public class DiaryEntry {
     private float bodyTemperature;
     @ManyToMany
     private List<Symptom> symptoms;
+    
+    private boolean transmittedToGesundheitsAmt;
 }
