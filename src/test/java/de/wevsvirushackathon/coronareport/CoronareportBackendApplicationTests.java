@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport_backend;
+package de.wevsvirushackathon.coronareport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

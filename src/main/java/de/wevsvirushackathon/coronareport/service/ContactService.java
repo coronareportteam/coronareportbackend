@@ -4,8 +4,6 @@ import de.wevsvirushackathon.coronareport.diary.Contact;
 import de.wevsvirushackathon.coronareport.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ContactService {
 
@@ -15,7 +13,7 @@ public class ContactService {
         this.repository = repository;
     }
 
-    public List<Contact> findAllContacts() {
-        return this.findAllContacts();
+    public Iterable<Contact> findAllContacts() {
+        return repository.findAll();
     }
 }

@@ -7,9 +7,13 @@ import de.wevsvirushackathon.coronareport.diary.Contact;
 import de.wevsvirushackathon.coronareport.service.ContactService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
+@RestController
 public class ContactController {
 
     private ContactService contactService;
@@ -18,11 +22,11 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @GetMapping("/export-users")
+    @GetMapping("/export")
     public void exportCSV(HttpServletResponse response) throws Exception {
 
         //set file name and content type
-        String filename = "users.csv";
+        String filename = "contact.csv";
 
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
@@ -36,7 +40,9 @@ public class ContactController {
                 .build();
 
         //write all users to csv file
-        writer.write(contactService.findAllContacts());
+        final List<Contact> contactList = new ArrayList<>();
+        contactService.findAllContacts().forEach(contactList::add);
+        writer.write(contactList);
 
     }
 }
