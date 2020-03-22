@@ -1,20 +1,21 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.symptomes;
 
 
+import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
+import de.wevsvirushackathon.coronareport.user.ClientRepository;
+import de.wevsvirushackathon.coronareport.user.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.wevsvirushackathon.coronareport.repository.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.repository.PatientRepository;
-
 @RestController
-public class SymptomDiaryService {
+public class SymptomDiaryController {
 	
 	@Autowired
 	DiaryEntryRepository diarayEntryRepository;
 	@Autowired
-	PatientRepository patientRepository;
+	ClientRepository userRepository;
 	
 	
 	public DiaryEntry storeEntry(DiaryEntry entry) {
@@ -28,8 +29,8 @@ public class SymptomDiaryService {
 	 */
 	@GetMapping("/diaryEntries")
 	public Iterable<DiaryEntry> getDiaryEntries(String patientCode){
-		User user = patientRepository.findByPatientCode(patientCode);
-		return diarayEntryRepository.findAllByPatient(user);
+		Client client = userRepository.findByPatientCode(patientCode);
+		return diarayEntryRepository.findAllByPatient(client);
 	}
 	
 

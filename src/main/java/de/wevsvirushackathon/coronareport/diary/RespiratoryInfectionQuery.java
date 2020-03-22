@@ -1,5 +1,6 @@
 package de.wevsvirushackathon.coronareport.diary;
 
+import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class RespiratoryInfectionQuery {
     private long id;
 
     @ManyToOne
-    private User user;
+    private Client client;
 
     private LocalDateTime dateTime;
 

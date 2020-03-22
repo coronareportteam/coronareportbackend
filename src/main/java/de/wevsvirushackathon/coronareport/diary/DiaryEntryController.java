@@ -1,7 +1,5 @@
-package de.wevsvirushackathon.coronareport.controller;
+package de.wevsvirushackathon.coronareport.diary;
 
-import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.repository.DiaryEntryRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,11 +35,11 @@ public class DiaryEntryController {
         final String valueSep = ";";
 
         for (final DiaryEntry d : new ArrayList<>(diaryEntryRepository.findAllByHealthDepartmentId(healthDepartmentId))) {
-            response.getWriter().print(d.getUser().getPatientId());
+            response.getWriter().print(d.getClient().getPatientId());
             response.getWriter().print(valueSep);
-            response.getWriter().print(d.getUser().getFirstname());
+            response.getWriter().print(d.getClient().getFirstname());
             response.getWriter().print(valueSep);
-            response.getWriter().print(d.getUser().getSurename());
+            response.getWriter().print(d.getClient().getSurename());
             response.getWriter().print(valueSep);
             response.getWriter().print(d.getDateTime());
             response.getWriter().print(valueSep);

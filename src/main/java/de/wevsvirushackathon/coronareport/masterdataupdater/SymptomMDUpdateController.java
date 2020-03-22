@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.wevsvirushackathon.coronareport.diary.Symptom;
-import de.wevsvirushackathon.coronareport.diary.SymptomRepository;
+import de.wevsvirushackathon.coronareport.symptomes.Symptom;
+import de.wevsvirushackathon.coronareport.symptomes.SymptomRepository;
 
 @RestController
 class SymptomMDUpdateController {

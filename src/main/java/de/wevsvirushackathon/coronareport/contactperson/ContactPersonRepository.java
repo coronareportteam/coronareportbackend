@@ -1,6 +1,5 @@
-package de.wevsvirushackathon.coronareport.repository;
+package de.wevsvirushackathon.coronareport.contactperson;
 
-import de.wevsvirushackathon.coronareport.diary.ContactPerson;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

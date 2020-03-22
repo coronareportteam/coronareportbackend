@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import de.wevsvirushackathon.coronareport.symptomes.Symptom;
+import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +24,7 @@ public class DiaryEntry {
 
     @ManyToOne
     @JoinColumn(name="patient_id", nullable=false)
-    private User user;
+    private Client client;
 
     @Temporal(TemporalType.DATE)
     private Date dateTime;

@@ -1,10 +1,8 @@
 package de.wevsvirushackathon.coronareport.controller;
 
-import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.User;
-import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
-import de.wevsvirushackathon.coronareport.repository.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.repository.PatientRepository;
+import de.wevsvirushackathon.coronareport.user.Client;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
+import de.wevsvirushackathon.coronareport.user.ClientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class DiaryEntryControllerIT {
     private MockMvc mvc;
 
     @Autowired
-    private PatientRepository patientRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
     private DiaryEntryRepository DiaryEntryRepository;
@@ -58,8 +56,8 @@ public class DiaryEntryControllerIT {
     }
 
     private void createTestData() {
-        final User user = User.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
-        patientRepository.save(user);
+        final Client client = Client.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
+        clientRepository.save(client);
 //        DiaryEntryRepository.save(DiaryEntry.builder().user(user)
 //                .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).typeOfContract(TypeOfContract.AE).build());
 //        DiaryEntryRepository.save(DiaryEntry.builder().user(user)

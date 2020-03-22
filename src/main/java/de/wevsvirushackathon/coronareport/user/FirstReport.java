@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.user;
 
 import lombok.Data;
 

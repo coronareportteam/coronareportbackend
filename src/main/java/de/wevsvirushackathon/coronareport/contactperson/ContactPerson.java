@@ -1,5 +1,8 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.contactperson;
 
+import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
+import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
+import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +22,7 @@ public class ContactPerson {
 
     @ManyToOne
     @JoinColumn(name="patient_id", nullable=false)
-    private User user;
+    private Client client;
 
     private String surename;
 

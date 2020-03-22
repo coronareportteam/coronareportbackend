@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.symptomes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
