@@ -1,26 +1,30 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import de.wevsvirushackathon.coronareport.symptomes.Symptom;
 import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DiaryEntryDto {
+public class DiaryEntryDtoOut {
 
+    @Getter 
     private int id;
 
     @Getter @Setter
     private Client client;
     
-    private Date dateTime;
+    @Getter @Setter  
+    private LocalDateTime dateTime;
     
     @Getter @Setter
     private float bodyTemperature;
     
     @Getter @Setter
-    private List<Long> symptoms;
+    private List<Symptom> symptoms;
     
+    @Getter @Setter
     private boolean transmittedToHealthDepartment;
 }
