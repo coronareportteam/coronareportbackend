@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/firstReport")
+@RequestMapping("/firstreport")
 public class FirstReportController {
 
     private ClientService clientService;
