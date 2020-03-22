@@ -22,7 +22,7 @@ public class Symptom {
 	@Id
 	@GeneratedValue
 	@Getter
-	private int id;
+	private Long id;
 	@Getter @Setter
 	private String name;
 	@Getter @Setter	

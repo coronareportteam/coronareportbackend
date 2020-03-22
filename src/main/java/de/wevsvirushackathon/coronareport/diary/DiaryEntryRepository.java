@@ -14,5 +14,5 @@ public interface DiaryEntryRepository
     @Query("SELECT d FROM DiaryEntry d WHERE d.client.healthDepartmentId = :healthDepartmentId")
     Collection<DiaryEntry> findAllByHealthDepartmentId(@Param("healthDepartmentId") String healthDepartmentId);
 
-    Iterable<DiaryEntry> findAllByClient(Client client);
+    Iterable<DiaryEntry> findAllByClientOrderByDateTimeAsc(Client client);
 }
