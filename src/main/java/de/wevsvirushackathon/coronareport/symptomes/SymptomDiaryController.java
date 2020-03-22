@@ -55,6 +55,7 @@ public class SymptomDiaryController {
 	public ResponseEntity<DiaryEntryDtoOut> storeEntry(@RequestHeader("client-code") String clientCode, @RequestBody DiaryEntryDtoIn diaryEntryDto) throws ParseException {
 		
 		DiaryEntry diaryEntry = convertToEntity(diaryEntryDto);
+		diaryEntry.setId(null);
 		
 		// lookup client by clientcode
 		Client client = userRepository.findByClientCode(clientCode);
@@ -104,6 +105,9 @@ public class SymptomDiaryController {
 	 */
 	private DiaryEntryDtoOut convertToDto(DiaryEntry diaryEntry) {
 		DiaryEntryDtoOut diaryEntryDto = modelMapper.map(diaryEntry, DiaryEntryDtoOut.class);
+		
+		// set Id expicitly because Long is not mapped automatically
+		diaryEntryDto.setId(diaryEntry.getId().intValue());
 
 		if(diaryEntry.getDateTime() != null) {
 			

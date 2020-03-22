@@ -1,9 +1,12 @@
 package de.wevsvirushackathon.coronareport.user;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import de.wevsvirushackathon.coronareport.firstReport.FirstReport;
 
 @Service
 public class ClientService {
@@ -15,7 +18,7 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public Client registerClientAndCreateExternalId(String surename, String firstname, String phone, String zipCode, boolean infected, String healthDepartmentId) {
+    public Client registerClientAndCreateExternalId(String surename, String firstname, String phone, String zipCode, boolean infected, String healthDepartmentId, List<FirstReport> comments) {
         Client newClient = new Client();
         newClient.setSurename(surename);
         newClient.setFirstname(firstname);
@@ -24,7 +27,8 @@ public class ClientService {
         newClient.setInfected(infected);
         newClient.setHealthDepartmentId(healthDepartmentId);
         String clientCode = createNewClientId();
-        newClient.setClientCode(clientCode);
+        newClient.setClientCode(clientCode);       
+        newClient.setComments(comments);
         this.clientRepository.save(newClient);
         return newClient;
     }

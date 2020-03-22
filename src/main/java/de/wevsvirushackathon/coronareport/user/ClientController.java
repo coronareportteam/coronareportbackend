@@ -24,7 +24,9 @@ public class ClientController {
                 clientDto.getPhone(),
                 clientDto.getZipCode(),
                 clientDto.isInfected(),
-                clientDto.getHealthDepartmentId());
+                clientDto.getHealthDepartmentId(),
+        		clientDto.getComments());
+        		
         return ResponseEntity.ok(client.getClientCode());
     }
 

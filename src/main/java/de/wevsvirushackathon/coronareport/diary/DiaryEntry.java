@@ -3,6 +3,7 @@ package de.wevsvirushackathon.coronareport.diary;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,11 +33,11 @@ public class DiaryEntry {
     @ManyToOne
     @JoinColumn(name="client_id", nullable=false)
     private Client client;
-
+    @Getter
     private Timestamp dateTime;
-
+    @Getter
     private float bodyTemperature;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Symptom> symptoms;
     
     private boolean transmittedToHealthDepartment;

@@ -11,6 +11,7 @@ import lombok.Setter;
 public class DiaryEntryDtoOut {
 
     @Getter 
+    @Setter
     private int id;
 
     @Getter @Setter
