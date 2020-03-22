@@ -1,25 +1,19 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.masterdataupdater;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.wevsvirushackathon.coronareport.diary.Symptom;
+import de.wevsvirushackathon.coronareport.diary.SymptomRepository;
+
 @RestController
-public class SymptomMasterDataController {
+class SymptomMDUpdateController {
 	
 	@Autowired
 	private SymptomRepository repo;
 	
-	/**
-	 * Returns all symptom entries. Should be used as master-data for other api calls;
-	 * @return
-	 */
-	@GetMapping("/symptoms")
-	public Iterable<Symptom> getSymptoms() {
-		return repo.findAll();
-	}
 	
 	/**
 	 * Stores a new Symptom
