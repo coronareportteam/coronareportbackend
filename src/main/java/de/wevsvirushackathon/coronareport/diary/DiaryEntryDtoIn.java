@@ -23,7 +23,10 @@ public class DiaryEntryDtoIn {
     
     @Getter @Setter
     private List<Integer> symptoms;
-    
+
+    @Getter @Setter
+    private List<Integer> contactPersonList;
+
     @Getter @Setter
     private boolean transmittedToHealthDepartment;
 }

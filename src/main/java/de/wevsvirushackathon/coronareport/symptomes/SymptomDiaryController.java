@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
+import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,6 +40,8 @@ public class SymptomDiaryController {
 	@Autowired
 	ClientRepository userRepository;
 	@Autowired
+	ContactPersonRepository contactPersonRepository;
+	@Autowired
 	SymptomRepository symptomRepository;
 	
     
@@ -60,14 +64,12 @@ public class SymptomDiaryController {
 		// lookup client by clientcode
 		Client client = userRepository.findByClientCode(clientCode);
 		if(client == null) {
-			ResponseEntity<DiaryEntryDtoOut> response = new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
-			return response; 
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		// check if date is set
 		if(diaryEntry.getDateTime() == null) {
-			ResponseEntity<DiaryEntryDtoOut> response = new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
-			return response; 
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		diaryEntry.setClient(client);
@@ -127,17 +129,23 @@ public class SymptomDiaryController {
 	private DiaryEntry convertToEntity(DiaryEntryDtoIn diaryEntryDto) throws ParseException {
 		DiaryEntry entry = modelMapper.map(diaryEntryDto, DiaryEntry.class);
 		
-		// lookup symptoms 
+		// lookup symptoms
 		ArrayList<Symptom> resolvedSymptoms = new ArrayList<>();
-		
+
 		for(long symptomId: diaryEntryDto.getSymptoms()) {
-			
-			Symptom symptom= symptomRepository.findById(symptomId).orElse(null);
-			if(symptom != null){
-				resolvedSymptoms.add(symptom);
-			}
+
+			symptomRepository.findById(symptomId).ifPresent(resolvedSymptoms::add);
 		}
 		entry.setSymptoms(resolvedSymptoms);
+
+		// lookup ContactPersons
+		ArrayList<ContactPerson> resolvedContactPerson = new ArrayList<>();
+
+		for(long contactPersonId: diaryEntryDto.getContactPersonList()) {
+
+			contactPersonRepository.findById(contactPersonId).ifPresent(resolvedContactPerson::add);
+		}
+		entry.setContactPersons(resolvedContactPerson);
 		
 		return entry;
 	
