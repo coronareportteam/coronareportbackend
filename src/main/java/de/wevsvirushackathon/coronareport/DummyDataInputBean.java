@@ -14,13 +14,9 @@ import java.util.UUID;
 @Component
 public class DummyDataInputBean implements ApplicationListener<ContextRefreshedEvent> {
 
-    public static int counter;
-
-    private ClientService clientService;
     private HealthDepartmentRepository healthDepartmentRepository;
 
-    public DummyDataInputBean(ClientService clientService, HealthDepartmentRepository healthDepartmentRepository) {
-        this.clientService = clientService;
+    public DummyDataInputBean(HealthDepartmentRepository healthDepartmentRepository) {
         this.healthDepartmentRepository = healthDepartmentRepository;
     }
 
@@ -30,12 +26,12 @@ public class DummyDataInputBean implements ApplicationListener<ContextRefreshedE
         HealthDepartment fk = new HealthDepartment();
         fk.setFullName("Gesundheitsamt Friedrichshain-Kreuzberg");
         fk.setId("Friedrichshain-Kreuzberg");
-        fk.setPassCode(UUID.randomUUID());
+        fk.setPassCode(UUID.fromString("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2"));
         departmentList.add(fk);
         HealthDepartment s = new HealthDepartment();
         s.setFullName("Gesundheitsamt Spandau");
         s.setId("Spandau");
-        s.setPassCode(UUID.randomUUID());
+        s.setPassCode(UUID.fromString("ca3f3e9a-414a-4117-a623-59b109b269f1"));
         departmentList.add(s);
         this.healthDepartmentRepository.saveAll(departmentList);
     }

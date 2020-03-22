@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HealthDepartmentRepository
-        extends CrudRepository<HealthDepartment, Long> {
+        extends CrudRepository<HealthDepartment, String> {
 
 
 }
