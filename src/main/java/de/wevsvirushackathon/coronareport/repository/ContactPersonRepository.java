@@ -1,10 +1,10 @@
 package de.wevsvirushackathon.coronareport.repository;
 
-import de.wevsvirushackathon.coronareport.diary.Contact;
+import de.wevsvirushackathon.coronareport.diary.ContactPerson;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContactRepository
-        extends CrudRepository<Contact, Long> {
+public interface ContactPersonRepository
+        extends CrudRepository<ContactPerson, Long> {
 }

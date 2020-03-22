@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Contact {
+public class ContactPerson {
     @Id
     @GeneratedValue
     private int id;

@@ -1,0 +1,3 @@
+patientId;firstName;sureName;dateTime;bodyTemperature;symptoms;typeOfContract;typeOfProtection
+1;Bob;Korona;2020-01-10;23.0;[];Ä;
+1;Bob;Korona;2020-01-11;30.0;[];Ä;
