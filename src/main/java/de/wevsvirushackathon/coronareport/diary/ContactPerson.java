@@ -19,7 +19,7 @@ public class ContactPerson {
 
     @ManyToOne
     @JoinColumn(name="patient_id", nullable=false)
-    private Patient patient;
+    private User user;
 
     private String surename;
 

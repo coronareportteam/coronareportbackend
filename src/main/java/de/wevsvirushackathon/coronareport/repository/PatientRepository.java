@@ -3,13 +3,13 @@ package de.wevsvirushackathon.coronareport.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import de.wevsvirushackathon.coronareport.diary.Patient;
+import de.wevsvirushackathon.coronareport.diary.User;
 
 @Repository
 public interface PatientRepository
-        extends CrudRepository<Patient, Long> {
+        extends CrudRepository<User, Long> {
 	
-		public Patient findByPatientCode(String patientCode);
+		public User findByPatientCode(String patientCode);
 		
 		
 }

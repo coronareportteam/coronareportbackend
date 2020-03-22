@@ -17,7 +17,7 @@ public class RespiratoryInfectionQuery {
     private long id;
 
     @ManyToOne
-    private Patient patient;
+    private User user;
 
     private LocalDateTime dateTime;
 

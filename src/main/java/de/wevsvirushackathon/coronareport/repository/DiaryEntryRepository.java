@@ -1,7 +1,7 @@
 package de.wevsvirushackathon.coronareport.repository;
 
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.Patient;
+import de.wevsvirushackathon.coronareport.diary.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +15,5 @@ public interface DiaryEntryRepository
     @Query("SELECT d FROM DiaryEntry d WHERE d.patient.healthDepartmentId = :healthDepartmentId")
     Collection<DiaryEntry> findAllByHealthDepartmentId(@Param("healthDepartmentId") String healthDepartmentId);
 
-    Iterable<DiaryEntry> findAllByPatient(Patient patient);
+    Iterable<DiaryEntry> findAllByPatient(User user);
 }

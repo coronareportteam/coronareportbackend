@@ -1,8 +1,7 @@
 package de.wevsvirushackathon.coronareport.controller;
 
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.Patient;
-import de.wevsvirushackathon.coronareport.diary.Symptom;
+import de.wevsvirushackathon.coronareport.diary.User;
 import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
 import de.wevsvirushackathon.coronareport.repository.DiaryEntryRepository;
 import de.wevsvirushackathon.coronareport.repository.PatientRepository;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -60,18 +58,18 @@ public class DiaryEntryControllerIT {
     }
 
     private void createTestData() {
-        final Patient patient = Patient.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
-        patientRepository.save(patient);
-        DiaryEntryRepository.save(DiaryEntry.builder().patient(patient)
+        final User user = User.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
+        patientRepository.save(user);
+        DiaryEntryRepository.save(DiaryEntry.builder().user(user)
                 .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).typeOfContract(TypeOfContract.AE).build());
-        DiaryEntryRepository.save(DiaryEntry.builder().patient(patient)
+        DiaryEntryRepository.save(DiaryEntry.builder().user(user)
                 .dateTime(dateOf(2020, 1, 11)).bodyTemperature(30).typeOfContract(TypeOfContract.AE).build());
 
-        final Patient patient2 = Patient.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build();
-        patientRepository.save(patient2);
-        DiaryEntryRepository.save(DiaryEntry.builder().patient(patient2)
+        final User user2 = User.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build();
+        patientRepository.save(user2);
+        DiaryEntryRepository.save(DiaryEntry.builder().user(user2)
                 .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).typeOfContract(TypeOfContract.Aer).build());
-        DiaryEntryRepository.save(DiaryEntry.builder().patient(patient2)
+        DiaryEntryRepository.save(DiaryEntry.builder().user(user2)
                 .dateTime(dateOf(2020, 1, 11)).bodyTemperature(23).typeOfContract(TypeOfContract.AE).build());
     }
 

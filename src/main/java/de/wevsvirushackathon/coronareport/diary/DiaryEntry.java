@@ -22,7 +22,7 @@ public class DiaryEntry {
 
     @ManyToOne
     @JoinColumn(name="patient_id", nullable=false)
-    private Patient patient;
+    private User user;
 
     @Temporal(TemporalType.DATE)
     private Date dateTime;

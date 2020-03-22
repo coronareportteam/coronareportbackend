@@ -37,11 +37,11 @@ public class DiaryEntryController {
         final String valueSep = ";";
 
         for (final DiaryEntry d : new ArrayList<>(diaryEntryRepository.findAllByHealthDepartmentId(healthDepartmentId))) {
-            response.getWriter().print(d.getPatient().getPatientId());
+            response.getWriter().print(d.getUser().getPatientId());
             response.getWriter().print(valueSep);
-            response.getWriter().print(d.getPatient().getFirstname());
+            response.getWriter().print(d.getUser().getFirstname());
             response.getWriter().print(valueSep);
-            response.getWriter().print(d.getPatient().getSurename());
+            response.getWriter().print(d.getUser().getSurename());
             response.getWriter().print(valueSep);
             response.getWriter().print(d.getDateTime());
             response.getWriter().print(valueSep);

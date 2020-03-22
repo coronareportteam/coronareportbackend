@@ -28,8 +28,8 @@ public class SymptomDiaryService {
 	 */
 	@GetMapping("/diaryEntries")
 	public Iterable<DiaryEntry> getDiaryEntries(String patientCode){
-		Patient patient = patientRepository.findByPatientCode(patientCode);
-		return diarayEntryRepository.findAllByPatient(patient);
+		User user = patientRepository.findByPatientCode(patientCode);
+		return diarayEntryRepository.findAllByPatient(user);
 	}
 	
 
