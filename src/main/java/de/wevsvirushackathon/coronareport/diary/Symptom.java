@@ -4,34 +4,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 public class Symptom {
 
 	@Id
 	@GeneratedValue
+	@Getter
 	private int id;
+	@Getter @Setter
 	private String name;
-	boolean isCharacteristic; 
+	@Getter @Setter	
+	private boolean isCharacteristic; 
 	
+	Symptom(){
+		// noArgs Constructor
+	}
 	
 	Symptom(int id, String name, boolean isCharacteristic) {
 		this.setName(name);
-		this.setId(id);
-		this.isCharacteristic = isCharacteristic;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
 		this.id = id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+		this.isCharacteristic = isCharacteristic;
 	}
 
 }
