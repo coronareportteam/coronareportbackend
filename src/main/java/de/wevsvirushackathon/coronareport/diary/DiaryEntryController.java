@@ -30,12 +30,12 @@ public class DiaryEntryController {
                 "attachment; filename=\"" + filename + "\"");
 
         //create a csv writer
-        response.getWriter().println("patientId;firstName;sureName;dateTime;bodyTemperature;symptoms;typeOfContract;typeOfProtection");
+        response.getWriter().println("clientId;firstName;sureName;dateTime;bodyTemperature;symptoms;typeOfContract;typeOfProtection");
 
         final String valueSep = ";";
 
         for (final DiaryEntry d : new ArrayList<>(diaryEntryRepository.findAllByHealthDepartmentId(healthDepartmentId))) {
-            response.getWriter().print(d.getClient().getPatientId());
+            response.getWriter().print(d.getClient().getClientId());
             response.getWriter().print(valueSep);
             response.getWriter().print(d.getClient().getFirstname());
             response.getWriter().print(valueSep);

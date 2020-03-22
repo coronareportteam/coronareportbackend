@@ -18,8 +18,8 @@ public class Client {
 
     @Id
     @GeneratedValue
-    private Long patientId;
-    private String patientCode;
+    private Long clientId;
+    private String clientCode;
     private String surename;
     private String firstname;
     private String phone;

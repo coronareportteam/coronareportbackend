@@ -21,7 +21,7 @@ public class ContactPerson {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="patient_id", nullable=false)
+    @JoinColumn(name="client_id", nullable=false)
     private Client client;
 
     private String surename;

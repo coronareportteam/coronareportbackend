@@ -23,14 +23,14 @@ public class SymptomDiaryController {
 	}
 	
 	/**
-	 * Returns all diary entries of a patient
-	 * @param patientCode the identifier of the patient
+	 * Returns all diary entries of a client
+	 * @param clientCode the identifier of the client
 	 * @return
 	 */
 	@GetMapping("/diaryEntries")
-	public Iterable<DiaryEntry> getDiaryEntries(String patientCode){
-		Client client = userRepository.findByPatientCode(patientCode);
-		return diarayEntryRepository.findAllByPatient(client);
+	public Iterable<DiaryEntry> getDiaryEntries(String clientCode){
+		Client client = userRepository.findByClientCode(clientCode);
+		return diarayEntryRepository.findAllByClient(client);
 	}
 	
 

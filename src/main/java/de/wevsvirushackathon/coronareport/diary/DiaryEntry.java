@@ -23,7 +23,7 @@ public class DiaryEntry {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="patient_id", nullable=false)
+    @JoinColumn(name="client_id", nullable=false)
     private Client client;
 
     @Temporal(TemporalType.DATE)
@@ -33,5 +33,5 @@ public class DiaryEntry {
     @ManyToMany
     private List<Symptom> symptoms;
     
-    private boolean transmittedToGesundheitsAmt;
+    private boolean transmittedToHealthDepartment;
 }

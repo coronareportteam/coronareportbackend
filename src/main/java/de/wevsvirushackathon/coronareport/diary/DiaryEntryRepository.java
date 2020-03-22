@@ -11,8 +11,8 @@ import java.util.Collection;
 @Repository
 public interface DiaryEntryRepository
         extends CrudRepository<DiaryEntry, Long> {
-    @Query("SELECT d FROM DiaryEntry d WHERE d.patient.healthDepartmentId = :healthDepartmentId")
+    @Query("SELECT d FROM DiaryEntry d WHERE d.client.healthDepartmentId = :healthDepartmentId")
     Collection<DiaryEntry> findAllByHealthDepartmentId(@Param("healthDepartmentId") String healthDepartmentId);
 
-    Iterable<DiaryEntry> findAllByPatient(Client client);
+    Iterable<DiaryEntry> findAllByClient(Client client);
 }
