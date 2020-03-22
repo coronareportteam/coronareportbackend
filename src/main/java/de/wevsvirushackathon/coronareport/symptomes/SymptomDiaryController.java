@@ -52,7 +52,7 @@ public class SymptomDiaryController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@PostMapping("/diaryEntries")
+	@PostMapping("/diaryentries")
 	public ResponseEntity<DiaryEntryDtoOut> storeEntry(@RequestHeader("client-code") String clientCode,
 			@RequestBody DiaryEntryDtoIn diaryEntryDto) {
 
@@ -77,7 +77,7 @@ public class SymptomDiaryController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@PutMapping("/diaryEntries")
+	@PutMapping("/diaryentries")
 	public ResponseEntity<?> updateEntry(@RequestHeader("client-code") String clientCode,
 			@RequestBody DiaryEntryDtoIn diaryEntryDto) {
 
@@ -120,7 +120,7 @@ public class SymptomDiaryController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@GetMapping("/diaryEntries")
+	@GetMapping("/diaryentries")
 	public Iterable<DiaryEntryDtoOut> getDiaryEntries(@RequestHeader("client-code") String clientCode)
 			throws ParseException {
 
