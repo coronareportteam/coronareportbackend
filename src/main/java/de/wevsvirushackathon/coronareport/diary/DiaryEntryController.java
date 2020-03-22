@@ -1,19 +1,20 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 
 
 @RestController
