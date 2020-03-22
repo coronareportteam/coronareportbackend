@@ -14,7 +14,6 @@ class SymptomMDUpdateController {
 	@Autowired
 	private SymptomRepository repo;
 	
-	
 	/**
 	 * Stores a new Symptom
 	 * @param symptom
