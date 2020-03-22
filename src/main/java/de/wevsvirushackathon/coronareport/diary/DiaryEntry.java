@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.symptomes.Symptom;
 import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,9 @@ public class DiaryEntry {
     private float bodyTemperature;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Symptom> symptoms;
-    
+
+    @ManyToMany
+    private List<ContactPerson> contactPersons;
+
     private boolean transmittedToHealthDepartment;
 }

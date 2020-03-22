@@ -1,3 +1,4 @@
-patientId;firstName;sureName;dateTime;bodyTemperature;symptoms;typeOfContract;typeOfProtection
-1;Bob;Korona;2020-01-10;23.0;[];Ä;
-1;Bob;Korona;2020-01-11;30.0;[];Ä;
+clientId;firstname;surename;dateTime;bodyTemperature;symptoms;contactFirstname;contactSurename;typeOfContract;typeOfProtection
+1;Bob;Korona;2020-01-10 00:00:00.0;23.0;[];;;;
+1;Bob;Korona;2020-01-11 00:00:00.0;30.0;[];Alice;Someone;Ä;H
+1;Bob;Korona;2020-01-11 00:00:00.0;30.0;[];Boris;Wanabe;Aer;M1
