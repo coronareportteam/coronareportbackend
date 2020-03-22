@@ -3,6 +3,8 @@ package de.wevsvirushackathon.coronareport.symptomes;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
+import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,8 @@ public class SymptomDiaryController {
 	DiaryEntryRepository diarayEntryRepository;
 	@Autowired
 	ClientRepository userRepository;
+	@Autowired
+	ContactPersonRepository contactPersonRepository;
 	@Autowired
 	SymptomRepository symptomRepository;
 
@@ -83,6 +87,7 @@ public class SymptomDiaryController {
 		} catch (ParseException e) {
 			return new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
 		}
+		
 		diarayEntryRepository.save(validDiaryEntry);
 
 		return ResponseEntity.ok().build();
@@ -167,7 +172,7 @@ public class SymptomDiaryController {
 		} else {
 			entry.setId( (long) diaryEntryDto.getId());
 		}
-		
+	
 
 		// lookup client by clientcode
 		Client client = userRepository.findByClientCode(clientCode);
@@ -188,6 +193,17 @@ public class SymptomDiaryController {
 		}
 		entry.setSymptoms(resolvedSymptoms);
 
+
+		// lookup ContactPersons
+		ArrayList<ContactPerson> resolvedContactPerson = new ArrayList<>();
+
+		for(long contactPersonId: diaryEntryDto.getContactPersonList()) {
+
+			contactPersonRepository.findById(contactPersonId).ifPresent(resolvedContactPerson::add);
+		}
+		entry.setContactPersons(resolvedContactPerson);
+		
+		
 		return entry;
 
 	}

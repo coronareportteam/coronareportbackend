@@ -1,5 +1,6 @@
 package de.wevsvirushackathon.coronareport.diary;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,11 @@ public class DiaryEntryDtoIn {
     private float bodyTemperature;
     
     @Getter @Setter
-    private List<Integer> symptoms;
-    
+    private List<Integer> symptoms = new ArrayList<>();;
+
+    @Getter @Setter
+    private List<Integer> contactPersonList = new ArrayList<>();
+
     @Getter @Setter
     private boolean transmittedToHealthDepartment;
 }

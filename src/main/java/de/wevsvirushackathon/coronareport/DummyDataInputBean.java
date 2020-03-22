@@ -2,7 +2,6 @@ package de.wevsvirushackathon.coronareport;
 
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
-import de.wevsvirushackathon.coronareport.user.ClientService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
