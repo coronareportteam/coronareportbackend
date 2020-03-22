@@ -28,4 +28,8 @@ public class ContactPerson {
     private String phone;
 
     private String email;
+
+    private TypeOfContract typeOfContract;
+
+    private TypeOfProtection typeOfProtection;
 }

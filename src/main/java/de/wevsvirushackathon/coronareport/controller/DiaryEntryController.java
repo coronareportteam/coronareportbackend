@@ -48,10 +48,10 @@ public class DiaryEntryController {
             response.getWriter().print(d.getBodyTemperature());
             response.getWriter().print(valueSep);
             response.getWriter().print(d.getSymptoms() == null ? "[]" : d.getSymptoms().toString());
-            response.getWriter().print(valueSep);
-            response.getWriter().print(d.getTypeOfContract() == null ? "" : d.getTypeOfContract().getLabel());
-            response.getWriter().print(valueSep);
-            response.getWriter().print(d.getTypeOfProtection()  == null ? "" : d.getTypeOfProtection().getLabel());
+//            response.getWriter().print(valueSep);
+//            response.getWriter().print(d.getTypeOfContract() == null ? "" : d.getTypeOfContract().getLabel());
+//            response.getWriter().print(valueSep);
+//            response.getWriter().print(d.getTypeOfProtection()  == null ? "" : d.getTypeOfProtection().getLabel());
             response.getWriter().println();
         }
     }

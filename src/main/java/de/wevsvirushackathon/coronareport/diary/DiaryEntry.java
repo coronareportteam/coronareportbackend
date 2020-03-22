@@ -27,9 +27,6 @@ public class DiaryEntry {
     @Temporal(TemporalType.DATE)
     private Date dateTime;
 
-    private TypeOfContract typeOfContract;
-    private TypeOfProtection typeOfProtection;
-    
     private float bodyTemperature;
     @ManyToMany
     private List<Symptom> symptoms;
