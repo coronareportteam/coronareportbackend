@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/client")
+@RestController
+@RequestMapping("/client")
 public class ClientController {
 
     private ClientService clientService;
@@ -26,11 +27,11 @@ public class ClientController {
                 clientDto.getHealthDepartmentId());
         return ResponseEntity.ok(client.getClientCode());
     }
-    
+
     @GetMapping("/{clientCode}")
     public ResponseEntity<Client> getClient(@PathVariable String clientCode) {
         Client client = this.clientService.getClient(clientCode);
-        if (client==null) {
+        if (client == null) {
             // TODO Replace by proper exception handling, not revealing existing client ids
             throw new IllegalArgumentException("Client not found");
         }

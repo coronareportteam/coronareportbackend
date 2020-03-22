@@ -23,10 +23,20 @@ public class ClientService {
         newClient.setZipCode(zipCode);
         newClient.setInfected(infected);
         newClient.setHealthDepartmentId(healthDepartmentId);
-        String clientCode = UUID.randomUUID().toString();
+        String clientCode = createNewClientId();
         newClient.setClientCode(clientCode);
         this.clientRepository.save(newClient);
         return newClient;
+    }
+
+    private String createNewClientId() {
+        Client possiblyExistingClient;
+        String newClientCode;
+        do {
+            newClientCode = UUID.randomUUID().toString();
+            possiblyExistingClient = this.clientRepository.findByClientCode(newClientCode);
+        } while (possiblyExistingClient != null);
+        return newClientCode;
     }
 
     public Client getClient(String clientCode) {
