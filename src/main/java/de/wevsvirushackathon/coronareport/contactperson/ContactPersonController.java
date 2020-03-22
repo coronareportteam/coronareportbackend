@@ -25,38 +25,19 @@ class ContactPersonController {
 	}
 
 	@GetMapping("/")
-	public Iterable<ContactPersonDto> getContacts() {
-
-		final Iterable<ContactPerson> entries = this.repo.findAll();
-
-		ArrayList<ContactPersonDto> dtos = new ArrayList<>();
-		entries.forEach(x -> dtos.add(createDto(x)));
-
-		return dtos;
-	}
-
-	private ContactPersonDto createDto(ContactPerson x) {
-		ContactPersonDto dto = modelMapper.map(x, ContactPersonDto.class);
-		if (x.getClient() != null) {
-			dto.setClientCode(x.getClient().getClientCode());
-		}
-		return dto;
-	}
-
-	@GetMapping("/by_client/{clientCode}")
-	public Iterable<ContactPersonDto> getContacts(@PathVariable("clientCode") String clientCode) {
+	public Iterable<ContactPersonDto> getContacts(@RequestHeader("client-code") String clientCode) {
 
 		final Iterable<ContactPerson> entries = this.repo.findAllByClientCode(clientCode);
 
 		ArrayList<ContactPersonDto> dtos = new ArrayList<>();
-		entries.forEach(x -> dtos.add(createDto(x)));
-
+		entries.forEach(x -> dtos.add(modelMapper.map(x, ContactPersonDto.class)));
 		return dtos;
 	}
 
 	@PostMapping("/")
-	public ContactPersonDto addContactPerson(@RequestBody ContactPersonDto contactPersonDto) {
-		final Client client = clientRepository.findByClientCode(contactPersonDto.getClientCode());
+	public ContactPersonDto addContactPerson(@RequestBody ContactPersonDto contactPersonDto,
+											 @RequestHeader("client-code") String clientCode) {
+		final Client client = clientRepository.findByClientCode(clientCode);
 		final ContactPerson contactPerson = modelMapper.map(contactPersonDto, ContactPerson.class);
 		contactPerson.setClient(client);
 		this.repo.save(contactPerson);
@@ -66,8 +47,9 @@ class ContactPersonController {
 
 	@PutMapping("/{contactId}")
 	public ContactPersonDto updateContactPerson(@RequestBody ContactPersonDto contactPersonDto,
-											 @PathVariable("contactId") Long contactId) {
-		final Client client = clientRepository.findByClientCode(contactPersonDto.getClientCode());
+												@RequestHeader("client-code") String clientCode,
+												@PathVariable("contactId") Long contactId) {
+		final Client client = clientRepository.findByClientCode(clientCode);
 		final ContactPerson contactPerson = modelMapper.map(contactPersonDto, ContactPerson.class);
 		contactPerson.setClient(client);
 		contactPerson.setId(contactId);

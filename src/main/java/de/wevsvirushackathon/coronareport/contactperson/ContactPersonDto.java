@@ -14,9 +14,6 @@ public class ContactPersonDto {
     private Long id;
 
     @Getter @Setter
-    private String clientCode;
-
-    @Getter @Setter
     private String surename;
 
     @Getter @Setter
