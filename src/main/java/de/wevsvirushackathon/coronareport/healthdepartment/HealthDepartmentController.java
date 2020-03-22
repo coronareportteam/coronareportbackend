@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/healthDepartments")
+@RequestMapping("/healthdepartments")
 public class HealthDepartmentController {
 
     private HealthDepartmentRepository healthDepartmentRepository;
