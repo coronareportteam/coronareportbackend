@@ -18,3 +18,8 @@ Initial DB setup
 	* password: `corona`
 	* superuser: yes
 * `createdb -O corona-report-app corona-report`
+
+## Dummy Data
+Two health departments are created as dummy data upon startup with the following id and passcode:
+Friedrichshain-Kreuzberg aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2
+Spandau ca3f3e9a-414a-4117-a623-59b109b269f1
