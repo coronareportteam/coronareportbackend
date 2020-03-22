@@ -1,27 +1,31 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class DiaryEntry {
     @Id
     @GeneratedValue
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name="patient_id", nullable=false)
     private Patient patient;
 
-    private LocalDateTime dateTime;
+    @Temporal(TemporalType.DATE)
+    private Date dateTime;
 
     private TypeOfContract typeOfContract;
     private TypeOfProtection typeOfProtection;

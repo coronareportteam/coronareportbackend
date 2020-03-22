@@ -1,12 +1,21 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import lombok.Getter;
 import lombok.Setter;
 
+
+import javax.persistence.*;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Symptom {
 
@@ -18,15 +27,6 @@ public class Symptom {
 	private String name;
 	@Getter @Setter	
 	private boolean isCharacteristic; 
-	
-	Symptom(){
-		// noArgs Constructor
-	}
-	
-	Symptom(int id, String name, boolean isCharacteristic) {
-		this.setName(name);
-		this.id = id;
-		this.isCharacteristic = isCharacteristic;
-	}
+
 
 }
