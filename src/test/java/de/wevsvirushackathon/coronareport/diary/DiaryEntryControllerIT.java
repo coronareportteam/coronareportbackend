@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -58,16 +60,16 @@ public class DiaryEntryControllerIT {
         final Client client = Client.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
         clientRepository.save(client);
         DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).build());
+                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(23).build());
         DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(dateOf(2020, 1, 11)).bodyTemperature(30).build());
+                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(30).build());
 
         final Client client2 = Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build();
         clientRepository.save(client2);
         DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).build());
+                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(23).build());
         DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(dateOf(2020, 1, 11)).bodyTemperature(23).build());
+                .dateTime(Timestamp.valueOf("2020-01-11 00:00:00")).bodyTemperature(23).build());
     }
 
     public Date dateOf(int year, int month, int day) {

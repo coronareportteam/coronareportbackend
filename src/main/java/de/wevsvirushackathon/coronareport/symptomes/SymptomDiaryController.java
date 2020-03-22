@@ -2,10 +2,13 @@ package de.wevsvirushackathon.coronareport.symptomes;
 
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryDto;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoIn;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoOut;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
 import de.wevsvirushackathon.coronareport.user.Client;
 import de.wevsvirushackathon.coronareport.user.ClientRepository;
@@ -48,16 +52,23 @@ public class SymptomDiaryController {
      * @throws ParseException
      */
 	@PostMapping("/diaryEntries")
-	public ResponseEntity<DiaryEntryDto> storeEntry(@RequestHeader("client-code") String clientCode, @RequestBody DiaryEntryDto diaryEntryDto) throws ParseException {
+	public ResponseEntity<DiaryEntryDtoOut> storeEntry(@RequestHeader("client-code") String clientCode, @RequestBody DiaryEntryDtoIn diaryEntryDto) throws ParseException {
 		
 		DiaryEntry diaryEntry = convertToEntity(diaryEntryDto);
 		
 		// lookup client by clientcode
 		Client client = userRepository.findByClientCode(clientCode);
 		if(client == null) {
-			ResponseEntity response = new ResponseEntity<DiaryEntryDto>(HttpStatus.BAD_REQUEST);
+			ResponseEntity<DiaryEntryDtoOut> response = new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
 			return response; 
 		}
+		
+		// check if date is set
+		if(diaryEntry.getDateTime() == null) {
+			ResponseEntity<DiaryEntryDtoOut> response = new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
+			return response; 
+		}
+		
 		diaryEntry.setClient(client);
 		
 		diaryEntry = diarayEntryRepository.save(diaryEntry);
@@ -73,13 +84,13 @@ public class SymptomDiaryController {
 	 * @throws ParseException 
 	 */
 	@GetMapping("/diaryEntries")
-	public Iterable<DiaryEntryDto> getDiaryEntries(@RequestHeader("client-code") String clientCode) throws ParseException{
+	public Iterable<DiaryEntryDtoOut> getDiaryEntries(@RequestHeader("client-code") String clientCode) throws ParseException{
 		
 		Client client = userRepository.findByClientCode(clientCode);
 		
-		Iterable<DiaryEntry> entries =  diarayEntryRepository.findAllByClientOrderByDateTimeAsc(client);
+		Iterable<DiaryEntry> entries =  diarayEntryRepository.findAllByClientOrderByDateTimeDesc(client);
 		
-		ArrayList<DiaryEntryDto> dtos = new ArrayList<>();
+		ArrayList<DiaryEntryDtoOut> dtos = new ArrayList<>();
 		
 		entries.forEach( x -> dtos.add(convertToDto(x)));
 		
@@ -91,9 +102,15 @@ public class SymptomDiaryController {
 	 * @param diaryEntry
 	 * @return
 	 */
-	private DiaryEntryDto convertToDto(DiaryEntry diaryEntry) {
-		DiaryEntryDto diaryEntryDto = modelMapper.map(diaryEntry, DiaryEntryDto.class);
+	private DiaryEntryDtoOut convertToDto(DiaryEntry diaryEntry) {
+		DiaryEntryDtoOut diaryEntryDto = modelMapper.map(diaryEntry, DiaryEntryDtoOut.class);
 
+		if(diaryEntry.getDateTime() != null) {
+			
+			diaryEntryDto.setDateTime(diaryEntry.getDateTime().toLocalDateTime());
+			
+		}
+		
 	    return diaryEntryDto;
 	}
 	
@@ -103,7 +120,7 @@ public class SymptomDiaryController {
 	 * @return
 	 * @throws ParseException
 	 */
-	private DiaryEntry convertToEntity(DiaryEntryDto diaryEntryDto) throws ParseException {
+	private DiaryEntry convertToEntity(DiaryEntryDtoIn diaryEntryDto) throws ParseException {
 		DiaryEntry entry = modelMapper.map(diaryEntryDto, DiaryEntry.class);
 		
 		// lookup symptoms 
