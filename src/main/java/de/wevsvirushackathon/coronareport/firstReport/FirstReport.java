@@ -3,17 +3,22 @@ package de.wevsvirushackathon.coronareport.firstReport;
 import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
 public class FirstReport {
 
+
+
+
     @Id
+    @GeneratedValue
+    private Long id;
+
+
     private LocalDateTime dateTime;
 
     @ManyToOne
