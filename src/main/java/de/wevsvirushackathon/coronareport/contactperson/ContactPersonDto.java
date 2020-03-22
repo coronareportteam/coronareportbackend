@@ -4,37 +4,33 @@ import com.sun.istack.NotNull;
 import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
 import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
 import de.wevsvirushackathon.coronareport.user.Client;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-public class ContactPerson {
-    @Id
-    @GeneratedValue
-    @NotNull
+public class ContactPersonDto {
+
+    @Getter @Setter
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="client_id", nullable=false)
-    private Client client;
+    @Getter @Setter
+    private String clientCode;
 
+    @Getter @Setter
     private String surename;
 
+    @Getter @Setter
     private String firstname;
 
+    @Getter @Setter
     private String phone;
 
+    @Getter @Setter
     private String email;
 
+    @Getter @Setter
     private TypeOfContract typeOfContract;
 
+    @Getter @Setter
     private TypeOfProtection typeOfProtection;
 }
