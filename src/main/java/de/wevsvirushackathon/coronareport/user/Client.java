@@ -1,5 +1,6 @@
 package de.wevsvirushackathon.coronareport.user;
 
+import de.wevsvirushackathon.coronareport.firstReport.FirstReport;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

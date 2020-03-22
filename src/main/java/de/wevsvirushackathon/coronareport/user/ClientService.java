@@ -42,4 +42,5 @@ public class ClientService {
     public Client getClient(String clientCode) {
         return this.clientRepository.findByClientCode(clientCode);
     }
+
 }

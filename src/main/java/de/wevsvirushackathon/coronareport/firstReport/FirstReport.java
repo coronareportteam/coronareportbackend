@@ -1,9 +1,12 @@
-package de.wevsvirushackathon.coronareport.user;
+package de.wevsvirushackathon.coronareport.firstReport;
 
+import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,6 +15,10 @@ public class FirstReport {
 
     @Id
     private LocalDateTime dateTime;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
     private boolean min15MinutesContactWithC19Pat;
     private boolean nursingActionOnC19Pat;
