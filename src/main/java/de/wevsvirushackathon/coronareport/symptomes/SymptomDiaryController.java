@@ -186,10 +186,7 @@ public class SymptomDiaryController {
 
 		for (long symptomId : diaryEntryDto.getSymptoms()) {
 
-			Symptom symptom = symptomRepository.findById(symptomId).orElse(null);
-			if (symptom != null) {
-				resolvedSymptoms.add(symptom);
-			}
+			symptomRepository.findById(symptomId).ifPresent(resolvedSymptoms::add);
 		}
 		entry.setSymptoms(resolvedSymptoms);
 
