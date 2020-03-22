@@ -1,5 +1,7 @@
 package de.wevsvirushackathon.coronareport.diary;
 
+import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
+import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
 import de.wevsvirushackathon.coronareport.user.Client;
 import de.wevsvirushackathon.coronareport.user.ClientRepository;
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -37,7 +40,10 @@ public class DiaryEntryControllerIT {
     private ClientRepository clientRepository;
 
     @Autowired
-    private DiaryEntryRepository DiaryEntryRepository;
+    private DiaryEntryRepository diaryEntryRepository;
+
+    @Autowired
+    private ContactPersonRepository contactPersonRepository;
 
     @Test
     public void givenEmployees_whenGetEmployees_thenStatus200()
@@ -58,23 +64,40 @@ public class DiaryEntryControllerIT {
 
     private void createTestData() {
         final Client client = Client.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
+        final ContactPerson cp1 = ContactPerson.builder().client(client).firstname("Alice").surename("Someone")
+                .typeOfContract(TypeOfContract.AE)
+                .typeOfProtection(TypeOfProtection.H)
+                .build();
+        final ContactPerson cp2 = ContactPerson.builder().client(client).firstname("Boris").surename("Wanabe")
+                .typeOfContract(TypeOfContract.Aer)
+                .typeOfProtection(TypeOfProtection.M1)
+                .build();
+
         clientRepository.save(client);
-        DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(23).build());
-        DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(30).build());
+        contactPersonRepository.saveAll(Arrays.asList(cp1, cp2));
+        diaryEntryRepository.save(DiaryEntry.builder()
+                .client(client)
+                .dateTime(dateOf(2020, 1, 10))
+                .bodyTemperature(23)
+                .build());
+        diaryEntryRepository.save(DiaryEntry.builder()
+                .client(client)
+                .dateTime(dateOf(2020, 1, 11))
+                .bodyTemperature(30)
+                .contactPersons(Arrays.asList(cp1, cp2))
+                .build());
 
         final Client client2 = Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build();
         clientRepository.save(client2);
-        DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(Timestamp.valueOf("2020-01-10 00:00:00")).bodyTemperature(23).build());
-        DiaryEntryRepository.save(DiaryEntry.builder().client(client)
-                .dateTime(Timestamp.valueOf("2020-01-11 00:00:00")).bodyTemperature(23).build());
+        diaryEntryRepository.save(DiaryEntry.builder().client(client2)
+                .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).build());
+        diaryEntryRepository.save(DiaryEntry.builder().client(client2)
+                .dateTime(dateOf(2020, 1, 11)).bodyTemperature(23).build());
     }
 
-    public Date dateOf(int year, int month, int day) {
-        return java.util.Date.from(LocalDate.of(year, month, day).atStartOfDay()
+    public Timestamp dateOf(int year, int month, int day) {
+        return new Timestamp(Date.from(LocalDate.of(year, month, day).atStartOfDay()
                 .atZone(ZoneId.systemDefault())
-                .toInstant());
+                .toInstant()).getTime());
     }
 }

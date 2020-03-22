@@ -1,8 +1,6 @@
 package de.wevsvirushackathon.coronareport.contactperson;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 class ContactPersonController {
@@ -13,9 +11,19 @@ class ContactPersonController {
 		this.repo = repo;
 	}
 
-	@PostMapping("/contact_person")
+	@PostMapping("/contact")
 	public ContactPerson addContactPerson(@RequestBody ContactPerson contactPerson) {
 		return this.repo.save(contactPerson);
+	}
+
+	@PutMapping("/contact")
+	public ContactPerson updateContactPerson(@RequestBody ContactPerson contactPerson) {
+		return this.repo.save(contactPerson);
+	}
+
+	@GetMapping("/contact")
+	public Iterable<ContactPerson> getContacts() {
+		return this.repo.findAll();
 	}
 
 }
