@@ -22,8 +22,11 @@ public class DiaryEntryDtoIn {
     private float bodyTemperature;
     
     @Getter @Setter
-    private List<Long> symptoms;
-    
+    private List<Integer> symptoms;
+
+    @Getter @Setter
+    private List<Integer> contactPersonList;
+
     @Getter @Setter
     private boolean transmittedToHealthDepartment;
 }

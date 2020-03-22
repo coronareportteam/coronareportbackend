@@ -21,10 +21,6 @@ public class FirstReport {
 
     private LocalDateTime dateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
-
     private boolean min15MinutesContactWithC19Pat;
     private boolean nursingActionOnC19Pat;
     private boolean directContactWithLiquidsOfC19pat;

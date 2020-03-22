@@ -30,8 +30,8 @@ public class Client {
 
     private String healthDepartmentId;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
             orphanRemoval = true
     )
     private List<FirstReport> comments = new ArrayList<>();

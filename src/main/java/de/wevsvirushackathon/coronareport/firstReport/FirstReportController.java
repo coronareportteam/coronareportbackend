@@ -25,7 +25,7 @@ public class FirstReportController {
         if (client == null) {
             return ResponseEntity.badRequest().build();
         }
-        firstReportDto.setClient(client);
+
         this.firstReportService.addFirstReport(firstReportDto);
         return ResponseEntity.ok().build();
     }
