@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Allows requests from different domains as the one on which the api runs.
+ *
+ * TODO This effectively disables Cors. It is a means for development during MVP, will be replaced before production.
  * @author Patrick Otto
  *
  */
