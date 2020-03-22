@@ -32,8 +32,7 @@ public class ClientController {
     public ResponseEntity<Client> getClient(@PathVariable String clientCode) {
         Client client = this.clientService.getClient(clientCode);
         if (client == null) {
-            // TODO Replace by proper exception handling, not revealing existing client ids
-            throw new IllegalArgumentException("Client not found");
+            return ResponseEntity.badRequest().build();
         }
         client.setClientId(null);
         return ResponseEntity.ok(client);
