@@ -33,12 +33,19 @@
             </properties>
         </profile>
         <profile>
+            <id>develop</id>
+            <properties>
+                <docker.build.skip>false</docker.build.skip>
+                <docker.build.userid>1001</docker.build.userid>
+            </properties>
+        </profile>
+        <profile>
             <id>prod</id>
             <properties>
                 <docker.build.skip>false</docker.build.skip>
-                <docker.build.userid>1000</docker.build.userid>
+                <docker.build.userid>1001</docker.build.userid>
             </properties>
-        </profile>
+        </profile>        
 
     </profiles>
 
