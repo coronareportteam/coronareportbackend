@@ -1,40 +1,47 @@
-package de.wevsvirushackathon.coronareport;
+package de.wevsvirushackathon.coronareport.symptomes;
 
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-import java.util.UUID;
 
 @Component
-@Profile("!prod")
-public class DummyDataInputBean implements ApplicationListener<ContextRefreshedEvent> {
+public class SymptomsDataInputBean implements ApplicationListener<ContextRefreshedEvent> {
 
-    private HealthDepartmentRepository healthDepartmentRepository;
+    private SymptomRepository repository;
 
-    public DummyDataInputBean(HealthDepartmentRepository healthDepartmentRepository) {
-        this.healthDepartmentRepository = healthDepartmentRepository;
+    public SymptomsDataInputBean(SymptomRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        List<HealthDepartment> departmentList = new LinkedList<>();
-        HealthDepartment fk = new HealthDepartment();
-        fk.setFullName("Testamt 1");
-        fk.setId("Testamt1");
-        fk.setPassCode(UUID.fromString("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2"));
-        departmentList.add(fk);
-        HealthDepartment s = new HealthDepartment();
-        s.setFullName("Testamt 2");
-        s.setId("Testamt2");
-        s.setPassCode(UUID.fromString("ca3f3e9a-414a-4117-a623-59b109b269f1"));
-        departmentList.add(s);
-        this.healthDepartmentRepository.saveAll(departmentList);
-    }
+        InputStream in = this.getClass().getClassLoader()
+                .getResourceAsStream("masterdata/symptoms.json");
+        System.out.println(in);
 
+        final ObjectMapper objectMapper = new ObjectMapper();
+
+        //read json file and convert to customer object
+        try {
+            final List<Symptom> symptoms = objectMapper.readValue(in, new TypeReference<List<Symptom>>(){});
+            if (this.repository.count() > 0) {
+                return;
+            }
+            Long i = 1L;
+            for (final Symptom symptom : symptoms) {
+                symptom.setId(i);
+                i++;
+            }
+            this.repository.saveAll(symptoms);
+        } catch (IOException e) {
+           throw new IllegalStateException("Unable to parse masterdata file", e);
+        }
+    }
 }
