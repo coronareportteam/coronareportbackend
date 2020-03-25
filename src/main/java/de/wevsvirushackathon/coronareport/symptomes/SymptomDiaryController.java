@@ -217,14 +217,15 @@ public class SymptomDiaryController {
 	 */
 	private DiaryEntryDtoOut convertToDto(DiaryEntry diaryEntry) {
 		DiaryEntryDtoOut diaryEntryDto = modelMapper.map(diaryEntry, DiaryEntryDtoOut.class);
+		
+		// contacts attribute has different names in dto and model, so map it manually
+		diaryEntryDto.setContactPersonList(diaryEntry.getContactPersons());
 
 		// set Id expicitly because Long is not mapped automatically
 		diaryEntryDto.setId(diaryEntry.getId().intValue());
 
 		if (diaryEntry.getDateTime() != null) {
-
 			diaryEntryDto.setDateTime(diaryEntry.getDateTime().toLocalDateTime());
-
 		}
 
 		return diaryEntryDto;

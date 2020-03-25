@@ -23,7 +23,7 @@ public class DiaryEntryDtoIn {
     private float bodyTemperature;
     
     @Getter @Setter
-    private List<Integer> symptoms = new ArrayList<>();;
+    private List<Integer> symptoms = new ArrayList<>();
 
     @Getter @Setter
     private List<Integer> contactPersonList = new ArrayList<>();
