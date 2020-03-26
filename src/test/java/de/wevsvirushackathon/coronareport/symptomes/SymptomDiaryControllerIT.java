@@ -1,7 +1,13 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.symptomes;
 
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
+import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
+import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
+import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 import de.wevsvirushackathon.coronareport.user.Client;
 import de.wevsvirushackathon.coronareport.user.ClientRepository;
 import org.junit.jupiter.api.Assertions;
@@ -16,12 +22,12 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-public class DiaryEntryControllerIT {
+public class SymptomDiaryControllerIT {
 
     @Autowired
     private MockMvc mvc;
@@ -45,13 +51,16 @@ public class DiaryEntryControllerIT {
     @Autowired
     private ContactPersonRepository contactPersonRepository;
 
+    @Autowired
+    private HealthDepartmentRepository healthDepartmentRepository;
+
     @Test
     public void givenEmployees_whenGetEmployees_thenStatus200()
             throws Exception {
 
         createTestData();
 
-        MvcResult result = mvc.perform(get("/dep/1/diary_entry/csv").header("Origin","*")
+        MvcResult result = mvc.perform(get("/diaryentries/export/csv/Testamt1/aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2").header("Origin", "*")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(new MediaType("text", "csv")))
@@ -63,18 +72,12 @@ public class DiaryEntryControllerIT {
     }
 
     private void createTestData() {
-        final Client client = Client.builder().firstname("Bob").surename("Korona").healthDepartmentId("1").build();
-        final ContactPerson cp1 = ContactPerson.builder().client(client).firstname("Alice").surename("Someone")
-                .typeOfContract(TypeOfContract.AE)
-                .typeOfProtection(TypeOfProtection.H)
-                .build();
-        final ContactPerson cp2 = ContactPerson.builder().client(client).firstname("Boris").surename("Wanabe")
-                .typeOfContract(TypeOfContract.Aer)
-                .typeOfProtection(TypeOfProtection.M1)
-                .build();
+        final HealthDepartment fk = healthDepartmentRepository.save(HealthDepartment.builder().
+                fullName("Testamt 1").id("Testamt1").
+                passCode(UUID.fromString("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2")).build());
 
-        clientRepository.save(client);
-        contactPersonRepository.saveAll(Arrays.asList(cp1, cp2));
+        final Client client = clientRepository.save(Client.builder().firstname("Bob").surename("Korona").healthDepartmentId(fk.getId()).build());
+
         diaryEntryRepository.save(DiaryEntry.builder()
                 .client(client)
                 .dateTime(dateOf(2020, 1, 10))
@@ -84,11 +87,17 @@ public class DiaryEntryControllerIT {
                 .client(client)
                 .dateTime(dateOf(2020, 1, 11))
                 .bodyTemperature(30)
-                .contactPersons(Arrays.asList(cp1, cp2))
+                .contactPersons(Arrays.asList(ContactPerson.builder().client(client).firstname("Alice").surename("Someone")
+                                .typeOfContract(TypeOfContract.AE)
+                                .typeOfProtection(TypeOfProtection.H)
+                                .build(),
+                        ContactPerson.builder().client(client).firstname("Boris").surename("Wanabe")
+                                .typeOfContract(TypeOfContract.Aer)
+                                .typeOfProtection(TypeOfProtection.M1)
+                                .build()))
                 .build());
 
-        final Client client2 = Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build();
-        clientRepository.save(client2);
+        final Client client2 = clientRepository.save(Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build());
         diaryEntryRepository.save(DiaryEntry.builder().client(client2)
                 .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).build());
         diaryEntryRepository.save(DiaryEntry.builder().client(client2)
