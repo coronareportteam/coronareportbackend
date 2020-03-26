@@ -1,12 +1,14 @@
 package de.wevsvirushackathon.coronareport.diary;
 
-import de.wevsvirushackathon.coronareport.user.Client;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
+import de.wevsvirushackathon.coronareport.user.Client;
 
 @Repository
 public interface DiaryEntryRepository
@@ -14,5 +16,5 @@ public interface DiaryEntryRepository
     @Query("SELECT d FROM DiaryEntry d WHERE d.client.healthDepartmentId = :healthDepartmentId AND d.transmittedToHealthDepartment = false")
     Collection<DiaryEntry> findAllByHealthDepartmentIdNotTransmitted(@Param("healthDepartmentId") String healthDepartmentId);
 
-    Iterable<DiaryEntry> findAllByClientOrderByDateTimeDesc(Client client);
+    List<DiaryEntry> findAllByClientOrderByDateTimeDesc(Client client);
 }
