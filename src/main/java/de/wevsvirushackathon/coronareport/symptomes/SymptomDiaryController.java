@@ -2,6 +2,7 @@ package de.wevsvirushackathon.coronareport.symptomes;
 
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
@@ -250,7 +251,7 @@ public class SymptomDiaryController {
 				response.getWriter().print(valueSep);
 				response.getWriter().print(d.getBodyTemperature());
 				response.getWriter().print(valueSep);
-				response.getWriter().print(d.getSymptoms() == null ? "[]" : d.getSymptoms().toString());
+				response.getWriter().print(d.getSymptoms() == null ? "[]" : d.getSymptoms().stream().map(Symptom::getName).collect(Collectors.toList()).toString());
 				response.getWriter().print(valueSep);
 				response.getWriter().print(cp.getFirstname() == null ? "" : cp.getFirstname());
 				response.getWriter().print(valueSep);

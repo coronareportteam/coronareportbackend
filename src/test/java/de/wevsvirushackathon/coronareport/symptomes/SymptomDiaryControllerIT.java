@@ -24,10 +24,7 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,23 +39,9 @@ public class SymptomDiaryControllerIT {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private DiaryEntryRepository diaryEntryRepository;
-
-    @Autowired
-    private ContactPersonRepository contactPersonRepository;
-
-    @Autowired
-    private HealthDepartmentRepository healthDepartmentRepository;
-
     @Test
     public void givenEmployees_whenGetEmployees_thenStatus200()
             throws Exception {
-
-        createTestData();
 
         MvcResult result = mvc.perform(get("/diaryentries/export/csv/Testamt1/aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2").header("Origin", "*")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -69,44 +52,5 @@ public class SymptomDiaryControllerIT {
         Assertions.assertEquals(
                 new Scanner(new File("src/test/resources/expected_csv.csv")).useDelimiter("\\Z").next().trim(),
                 result.getResponse().getContentAsString().trim());
-    }
-
-    private void createTestData() {
-        final HealthDepartment fk = healthDepartmentRepository.save(HealthDepartment.builder().
-                fullName("Testamt 1").id("Testamt1").
-                passCode(UUID.fromString("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2")).build());
-
-        final Client client = clientRepository.save(Client.builder().firstname("Bob").surename("Korona").healthDepartmentId(fk.getId()).build());
-
-        diaryEntryRepository.save(DiaryEntry.builder()
-                .client(client)
-                .dateTime(dateOf(2020, 1, 10))
-                .bodyTemperature(23)
-                .build());
-        diaryEntryRepository.save(DiaryEntry.builder()
-                .client(client)
-                .dateTime(dateOf(2020, 1, 11))
-                .bodyTemperature(30)
-                .contactPersons(Arrays.asList(ContactPerson.builder().client(client).firstname("Alice").surename("Someone")
-                                .typeOfContract(TypeOfContract.AE)
-                                .typeOfProtection(TypeOfProtection.H)
-                                .build(),
-                        ContactPerson.builder().client(client).firstname("Boris").surename("Wanabe")
-                                .typeOfContract(TypeOfContract.Aer)
-                                .typeOfProtection(TypeOfProtection.M1)
-                                .build()))
-                .build());
-
-        final Client client2 = clientRepository.save(Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId("2").build());
-        diaryEntryRepository.save(DiaryEntry.builder().client(client2)
-                .dateTime(dateOf(2020, 1, 10)).bodyTemperature(23).build());
-        diaryEntryRepository.save(DiaryEntry.builder().client(client2)
-                .dateTime(dateOf(2020, 1, 11)).bodyTemperature(23).build());
-    }
-
-    public Timestamp dateOf(int year, int month, int day) {
-        return new Timestamp(Date.from(LocalDate.of(year, month, day).atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant()).getTime());
     }
 }
