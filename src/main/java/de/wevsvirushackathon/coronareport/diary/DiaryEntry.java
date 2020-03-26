@@ -41,7 +41,7 @@ public class DiaryEntry {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Symptom> symptoms;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<ContactPerson> contactPersons;
 
     private boolean transmittedToHealthDepartment;
