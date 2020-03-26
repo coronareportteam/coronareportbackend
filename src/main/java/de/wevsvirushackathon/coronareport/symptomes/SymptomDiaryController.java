@@ -1,11 +1,13 @@
 package de.wevsvirushackathon.coronareport.symptomes;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * The controller for creating, updating and reading of diaryEntries by a client
  * 
@@ -38,18 +42,26 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 public class SymptomDiaryController {
 
-	@Autowired
-	DiaryEntryRepository diarayEntryRepository;
-	@Autowired
-	ClientRepository userRepository;
-	@Autowired
-	ContactPersonRepository contactPersonRepository;
-	@Autowired
-	SymptomRepository symptomRepository;
-
-	@Autowired
+	private DiaryEntryRepository diaryEntryRepository;
+	private ClientRepository userRepository;
+	private ContactPersonRepository contactPersonRepository;
+	private SymptomRepository symptomRepository;
 	private ModelMapper modelMapper;
-	
+	private HealthDepartmentRepository healthDepartmentRepository;
+
+	public SymptomDiaryController(DiaryEntryRepository diaryEntryRepository,
+								  ClientRepository userRepository,
+								  ContactPersonRepository contactPersonRepository,
+								  SymptomRepository symptomRepository,
+								  ModelMapper modelMapper,
+								  HealthDepartmentRepository healthDepartmentRepository) {
+		this.diaryEntryRepository = diaryEntryRepository;
+		this.userRepository = userRepository;
+		this.contactPersonRepository = contactPersonRepository;
+		this.symptomRepository = symptomRepository;
+		this.modelMapper = modelMapper;
+		this.healthDepartmentRepository = healthDepartmentRepository;
+	}
 
 	/**
 	 * Saves a new diary entry
@@ -74,15 +86,13 @@ public class SymptomDiaryController {
 		try {
 			validDiaryEntry = prepareAndValidateEntry(diaryEntryDto, clientCode);
 		} catch (ParseException e) {
-			return new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		validDiaryEntry = diarayEntryRepository.save(validDiaryEntry);
+		validDiaryEntry = diaryEntryRepository.save(validDiaryEntry);
 
-		ResponseEntity<DiaryEntryDtoOut> response = ResponseEntity.status(HttpStatus.CREATED)
+		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(convertToDto(validDiaryEntry));
-
-		return response;
 	}
 
 	/**
@@ -115,7 +125,7 @@ public class SymptomDiaryController {
 		}
 		
 		// check if diaryentry exists
-		if(!diarayEntryRepository.existsById((long) diaryEntryId)) {
+		if(!diaryEntryRepository.existsById((long) diaryEntryId)) {
 			return ResponseEntity.notFound().build();
 		}	
 		
@@ -126,7 +136,7 @@ public class SymptomDiaryController {
 			return new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
 		}
 
-		diarayEntryRepository.save(validDiaryEntry);
+		diaryEntryRepository.save(validDiaryEntry);
 
 		return ResponseEntity.ok().build();
 	}
@@ -172,7 +182,7 @@ public class SymptomDiaryController {
 
 		Client client = userRepository.findByClientCode(clientCode);
 
-		Iterable<DiaryEntry> entries = diarayEntryRepository.findAllByClientOrderByDateTimeDesc(client);
+		Iterable<DiaryEntry> entries = diaryEntryRepository.findAllByClientOrderByDateTimeDesc(client);
 
 		ArrayList<DiaryEntryDtoOut> dtos = new ArrayList<>();
 
@@ -198,16 +208,62 @@ public class SymptomDiaryController {
 
 		int diaryEntryId = (int) Integer.parseInt(id);
 
-		Optional<DiaryEntry> diaryEntryOptional = diarayEntryRepository.findById((long) diaryEntryId);
+		Optional<DiaryEntry> diaryEntryOptional = diaryEntryRepository.findById((long) diaryEntryId);
 
-		if (diaryEntryOptional.isPresent()) {
-			return ResponseEntity.ok(convertToDto(diaryEntryOptional.get()));
-		} else {
-			return new ResponseEntity<DiaryEntryDtoOut>(HttpStatus.BAD_REQUEST);
-		}
+		return diaryEntryOptional.map(diaryEntry -> ResponseEntity.ok(convertToDto(diaryEntry))).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 
 	}
 
+	@GetMapping("/diaryentries/export/csv/{healthDepartmentId}/{healthDepartmentPassCode}")
+	public void exportCSV(
+			@PathVariable("healthDepartmentId") String healthDepartmentId,
+			@PathVariable UUID healthDepartmentPassCode,
+			HttpServletResponse response) throws Exception {
+
+		//set file name and content type
+		String filename = String.format("diary_entry_%s.csv", healthDepartmentId);
+
+		// rudimentary security setting TODO replace after POC
+		Optional<HealthDepartment> healthDepartment = this.healthDepartmentRepository.findById(healthDepartmentId);
+		if (healthDepartment.isEmpty() || !healthDepartment.get().getPassCode().equals(healthDepartmentPassCode)) {
+			// TODO replacy by proper exception handling
+			throw new IllegalAccessException("Wrong credentials for health department");
+		}
+		response.setContentType("text/csv");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + filename + "\"");
+
+		final Collection<DiaryEntry> diaryEntryCollection = diaryEntryRepository.findAllByHealthDepartmentId(healthDepartmentId);
+		response.getWriter().println("clientId;firstname;surename;dateTime;bodyTemperature;symptoms;contactFirstname;contactSurename;typeOfContract;typeOfProtection");
+
+		final String valueSep = ";";
+
+		for (final DiaryEntry d : diaryEntryCollection) {
+			final Collection<ContactPerson> contactPersonCollection = d.getContactPersons().size() == 0 ? Collections.singletonList(new ContactPerson()) : d.getContactPersons();
+			for (final ContactPerson cp : contactPersonCollection) {
+				response.getWriter().print(d.getClient().getClientId());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(d.getClient().getFirstname());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(d.getClient().getSurename());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(d.getDateTime());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(d.getBodyTemperature());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(d.getSymptoms() == null ? "[]" : d.getSymptoms().stream().map(Symptom::getName).collect(Collectors.toList()).toString());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(cp.getFirstname() == null ? "" : cp.getFirstname());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(cp.getSurename() == null ? "" : cp.getSurename());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(cp.getTypeOfContract() == null ? "" : cp.getTypeOfContract().getLabel());
+				response.getWriter().print(valueSep);
+				response.getWriter().print(cp.getTypeOfProtection() == null ? "" : cp.getTypeOfProtection().getLabel());
+				response.getWriter().println();
+			}
+		}
+	}
 	
 	/**
 	 * Converts a model object into its DTO representation

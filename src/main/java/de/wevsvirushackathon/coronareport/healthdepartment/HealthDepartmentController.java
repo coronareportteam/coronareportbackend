@@ -32,9 +32,4 @@ public class HealthDepartmentController {
         return ResponseEntity.ok(dtoList);
     }
 
-    class HealthDepartmentDTO {
-        String fullName;
-        String id;
-    }
-
 }

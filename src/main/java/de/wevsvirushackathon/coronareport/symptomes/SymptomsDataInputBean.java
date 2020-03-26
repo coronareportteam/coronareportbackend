@@ -4,15 +4,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 @Component
-public class SymptomsDataInputBean implements ApplicationListener<ContextRefreshedEvent> {
+public class SymptomsDataInputBean implements ApplicationListener<ContextRefreshedEvent>, Ordered {
 
     private SymptomRepository repository;
 
@@ -22,9 +22,8 @@ public class SymptomsDataInputBean implements ApplicationListener<ContextRefresh
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        InputStream in = this.getClass().getClassLoader()
+        final InputStream in = this.getClass().getClassLoader()
                 .getResourceAsStream("masterdata/symptoms.json");
-        System.out.println(in);
 
         final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -43,5 +42,10 @@ public class SymptomsDataInputBean implements ApplicationListener<ContextRefresh
         } catch (IOException e) {
            throw new IllegalStateException("Unable to parse masterdata file", e);
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return 1;
     }
 }

@@ -38,10 +38,10 @@ public class DiaryEntry {
     private Timestamp dateTime;
     @Getter
     private float bodyTemperature;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Symptom> symptoms;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<ContactPerson> contactPersons;
 
     private boolean transmittedToHealthDepartment;
