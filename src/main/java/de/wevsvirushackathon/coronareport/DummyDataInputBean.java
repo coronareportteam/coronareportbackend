@@ -52,10 +52,18 @@ public class DummyDataInputBean implements ApplicationListener<ContextRefreshedE
         final HealthDepartment hd2 = this.healthDepartmentRepository.save(HealthDepartment.builder().fullName("Testamt 2")
                 .id("Testamt2").passCode(UUID.fromString("ca3f3e9a-414a-4117-a623-59b109b269f1")).build());
 
-        final Client client1 = clientRepository.save(Client.builder().firstname("Fabian").surename("Bauer").healthDepartmentId(hd1.getId()).build());
-        final Client client2 = clientRepository.save(Client.builder().firstname("Sabine").surename("Wohlfart").healthDepartmentId(hd1.getId()).build());
-        final Client client3 = clientRepository.save(Client.builder().firstname("Alice").surename("Wonderland").healthDepartmentId(hd2.getId()).build());
+        final Client client1 = clientRepository.save(Client.builder().firstname("Fabian")
+        		.surename("Bauer").infected(true).clientCode("738d3d1f-a9f1-4619-9896-2b5cb3a89c22")
+        		.healthDepartmentId(hd1.getId()).build());
+        final Client client2 = clientRepository.save(Client.builder().firstname("Sabine")
+        		.surename("Wohlfart").infected(false).clientCode("4dsafg1f-a9f1-4619-9896-2b5cb3akd8e4")
+        		.healthDepartmentId(hd1.getId()).build());
+        final Client client3 = clientRepository.save(Client.builder().firstname("Daniele")
+        		.surename("Maurer").infected(true).clientCode("22safg1f-a9f1-225f-9896-2b5cb3akdg88")
+        		.healthDepartmentId(hd2.getId()).build());
 
+        
+        
         final ContactPerson cp1 = contactPersonRepository.save(ContactPerson.builder().client(client1).firstname("Alice").surename("Sommer")
                 .typeOfContract(TypeOfContract.AE)
                 .typeOfProtection(TypeOfProtection.H)
