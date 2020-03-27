@@ -54,7 +54,7 @@ public class DummyDataInputBean implements ApplicationListener<ContextRefreshedE
     	
     	// check if testclients do already exist:
     	
-    	Client client = clientRepository.findByClientCode("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2");
+    	Client client = clientRepository.findByClientCode("738d3d1f-a9f1-4619-9896-2b5cb3a89c22");
     	if(client != null){
     		return;
     	}
