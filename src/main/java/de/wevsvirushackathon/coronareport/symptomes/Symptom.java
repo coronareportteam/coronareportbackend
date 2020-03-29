@@ -5,11 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
-
 import javax.persistence.*;
 
 @Data
@@ -21,12 +16,8 @@ public class Symptom {
 
 	@Id
 	@GeneratedValue
-	@Getter
 	private Long id;
-	@Getter @Setter
 	private String name;
-	@Getter @Setter	
 	private boolean isCharacteristic; 
-
 
 }

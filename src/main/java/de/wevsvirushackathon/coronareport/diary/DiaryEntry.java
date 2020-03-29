@@ -17,7 +17,6 @@ import de.wevsvirushackathon.coronareport.client.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -28,15 +27,12 @@ import lombok.NoArgsConstructor;
 public class DiaryEntry {
     @Id
     @GeneratedValue
-    @Getter
     private Long id;
 
     @ManyToOne
     @JoinColumn(name="client_id", nullable=false)
     private Client client;
-    @Getter
     private Timestamp dateTime;
-    @Getter
     private float bodyTemperature;
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Symptom> symptoms;
