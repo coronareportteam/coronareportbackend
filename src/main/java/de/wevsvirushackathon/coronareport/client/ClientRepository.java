@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository
         extends CrudRepository<Client, Long> {
-	
-		public Client findByClientCode(String clientCode);
 
-		public List<Client> findAllByHealthDepartmentId(String healtDepartmentId);
-		
-		
+    Client findByClientCode(String clientCode);
+
+    List<Client> findAllByHealthDepartmentId(String healtDepartmentId);
 }
