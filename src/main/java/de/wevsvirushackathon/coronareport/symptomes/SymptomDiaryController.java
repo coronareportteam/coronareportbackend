@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,7 @@ public class SymptomDiaryController {
 	private ModelMapper modelMapper;
 	private HealthDepartmentRepository healthDepartmentRepository;
 
+	@Autowired
 	public SymptomDiaryController(DiaryEntryRepository diaryEntryRepository,
 								  ClientRepository userRepository,
 								  ContactPersonRepository contactPersonRepository,
