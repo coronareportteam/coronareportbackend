@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/report")
 public class HDReportController {
 
-    @Autowired
+
     private HDReportService reportService;
 
+    @Autowired
+    public HDReportController(HDReportService reportService) {
+        this.reportService = reportService;
+    }
 
     @GetMapping("/{healthDepartmentId}")
     public ResponseEntity<List<HDClient>> getGAClientsOfHealthDepartment(@PathVariable String healthDepartmentId) {
