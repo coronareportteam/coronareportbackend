@@ -7,13 +7,13 @@ import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
 import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
 import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
 import de.wevsvirushackathon.coronareport.firstReport.FirstReport;
-import de.wevsvirushackathon.coronareport.firstReport.FirstReportRepository;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 import de.wevsvirushackathon.coronareport.symptomes.Symptom;
 import de.wevsvirushackathon.coronareport.symptomes.SymptomRepository;
 import de.wevsvirushackathon.coronareport.client.Client;
 import de.wevsvirushackathon.coronareport.client.ClientRepository;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.Ordered;
@@ -33,20 +33,17 @@ public class DummyDataInputBean implements ApplicationListener<ContextRefreshedE
     private DiaryEntryRepository diaryEntryRepository;
     private HealthDepartmentRepository healthDepartmentRepository;
     private SymptomRepository symptomRepository;
-    private FirstReportRepository firstReportRepository;
 
     public DummyDataInputBean(ClientRepository clientRepository,
                               ContactPersonRepository contactPersonRepository,
                               DiaryEntryRepository diaryEntryRepository,
                               HealthDepartmentRepository healthDepartmentRepository,
-                              SymptomRepository symptomRepository,
-                              FirstReportRepository firstReportRepository) {
+                              SymptomRepository symptomRepository) {
         this.clientRepository = clientRepository;
         this.contactPersonRepository = contactPersonRepository;
         this.diaryEntryRepository = diaryEntryRepository;
         this.healthDepartmentRepository = healthDepartmentRepository;
         this.symptomRepository = symptomRepository;
-        this.firstReportRepository = firstReportRepository;
     }
 
     @Override
@@ -58,14 +55,12 @@ public class DummyDataInputBean implements ApplicationListener<ContextRefreshedE
     	if(client != null){
     		return;
     	}
-    	
-    	
+
         final HealthDepartment hd1 = this.healthDepartmentRepository.save(HealthDepartment.builder().fullName("Testamt 1")
                 .id("Testamt1").passCode(UUID.fromString("aba0ec65-6c1d-4b7b-91b4-c31ef16ad0a2")).build());
         final HealthDepartment hd2 = this.healthDepartmentRepository.save(HealthDepartment.builder().fullName("Testamt 2")
                 .id("Testamt2").passCode(UUID.fromString("ca3f3e9a-414a-4117-a623-59b109b269f1")).build());
-        
-        
+
         final FirstReport fReport1 = FirstReport.builder()
         		.belongToLaboratoryStaff(false)
         		.belongToMedicalStaff(true)

@@ -1,7 +1,7 @@
 package de.wevsvirushackathon.coronareport.firstReport;
 
 import de.wevsvirushackathon.coronareport.client.Client;
-import de.wevsvirushackathon.coronareport.client.ClientService;
+import de.wevsvirushackathon.coronareport.client.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/firstreport")
 public class FirstReportController {
 
-    private ClientService clientService;
+    private ClientRepository clientRepository;
     private FirstReportService firstReportService;
 
     @Autowired
-    public FirstReportController(ClientService clientService, FirstReportService firstReportService) {
-        this.clientService = clientService;
+    public FirstReportController(ClientRepository clientRepository, FirstReportService firstReportService) {
+        this.clientRepository = clientRepository;
         this.firstReportService = firstReportService;
     }
 
     @PostMapping("/{clientCode}")
     public ResponseEntity<Void> addFirstReport(@PathVariable String clientCode, @RequestBody FirstReport firstReportDto) {
-        Client client = this.clientService.getClient(clientCode);
+        Client client = this.clientRepository.findByClientCode(clientCode);
         if (client == null) {
             return ResponseEntity.badRequest().build();
         }
