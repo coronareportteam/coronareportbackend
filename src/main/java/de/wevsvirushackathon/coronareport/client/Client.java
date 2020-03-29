@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.user;
+package de.wevsvirushackathon.coronareport.client;
 
 import de.wevsvirushackathon.coronareport.firstReport.FirstReport;
 import lombok.AllArgsConstructor;

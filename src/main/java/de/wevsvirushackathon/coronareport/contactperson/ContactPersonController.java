@@ -1,7 +1,7 @@
 package de.wevsvirushackathon.coronareport.contactperson;
 
-import de.wevsvirushackathon.coronareport.user.Client;
-import de.wevsvirushackathon.coronareport.user.ClientRepository;
+import de.wevsvirushackathon.coronareport.client.Client;
+import de.wevsvirushackathon.coronareport.client.ClientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 

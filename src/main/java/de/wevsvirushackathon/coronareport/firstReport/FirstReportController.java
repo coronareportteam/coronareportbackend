@@ -1,7 +1,7 @@
 package de.wevsvirushackathon.coronareport.firstReport;
 
-import de.wevsvirushackathon.coronareport.user.Client;
-import de.wevsvirushackathon.coronareport.user.ClientService;
+import de.wevsvirushackathon.coronareport.client.Client;
+import de.wevsvirushackathon.coronareport.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

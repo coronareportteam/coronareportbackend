@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.user.Client;
-import de.wevsvirushackathon.coronareport.user.ClientRepository;
+import de.wevsvirushackathon.coronareport.client.Client;
+import de.wevsvirushackathon.coronareport.client.ClientRepository;
 
 @Service
 public class HDReportService {

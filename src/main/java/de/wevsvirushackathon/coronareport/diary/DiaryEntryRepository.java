@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import de.wevsvirushackathon.coronareport.user.Client;
+import de.wevsvirushackathon.coronareport.client.Client;
 
 @Repository
 public interface DiaryEntryRepository

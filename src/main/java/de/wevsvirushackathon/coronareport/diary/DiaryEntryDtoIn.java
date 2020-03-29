@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import de.wevsvirushackathon.coronareport.user.Client;
+import de.wevsvirushackathon.coronareport.client.Client;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,15 +1,5 @@
 package de.wevsvirushackathon.coronareport.symptomes;
 
-import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
-import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
-import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
-import de.wevsvirushackathon.coronareport.user.Client;
-import de.wevsvirushackathon.coronareport.user.ClientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

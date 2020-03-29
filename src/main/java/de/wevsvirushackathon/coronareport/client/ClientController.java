@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.user;
+package de.wevsvirushackathon.coronareport.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

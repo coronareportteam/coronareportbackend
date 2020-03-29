@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.symptomes.Symptom;
-import de.wevsvirushackathon.coronareport.user.Client;
+import de.wevsvirushackathon.coronareport.client.Client;
 import lombok.Getter;
 import lombok.Setter;
 

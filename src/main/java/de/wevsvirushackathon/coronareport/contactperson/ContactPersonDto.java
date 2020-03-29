@@ -1,12 +1,8 @@
 package de.wevsvirushackathon.coronareport.contactperson;
 
-import com.sun.istack.NotNull;
 import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
 import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
-import de.wevsvirushackathon.coronareport.user.Client;
 import lombok.*;
-
-import javax.persistence.*;
 
 public class ContactPersonDto {
 
