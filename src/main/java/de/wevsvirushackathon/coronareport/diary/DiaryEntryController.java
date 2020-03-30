@@ -23,10 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoIn;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoOut;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
 import de.wevsvirushackathon.coronareport.client.Client;
 import de.wevsvirushackathon.coronareport.client.ClientRepository;
 import io.swagger.annotations.ApiOperation;
