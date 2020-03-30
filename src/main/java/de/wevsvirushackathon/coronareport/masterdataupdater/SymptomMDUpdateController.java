@@ -11,9 +11,13 @@ import de.wevsvirushackathon.coronareport.symptomes.SymptomRepository;
 @RestController
 class SymptomMDUpdateController {
 	
-	@Autowired
 	private SymptomRepository repo;
-	
+
+	@Autowired
+	public SymptomMDUpdateController(SymptomRepository repo) {
+		this.repo = repo;
+	}
+
 	/**
 	 * Stores a new Symptom
 	 * @param symptom

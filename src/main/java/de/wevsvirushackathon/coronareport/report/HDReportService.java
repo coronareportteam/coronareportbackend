@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service;
 
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.user.Client;
-import de.wevsvirushackathon.coronareport.user.ClientRepository;
+import de.wevsvirushackathon.coronareport.client.Client;
+import de.wevsvirushackathon.coronareport.client.ClientRepository;
 
 @Service
 public class HDReportService {
-	
-	@Autowired
+
 	private ModelMapper modelMapper;
-	
-	@Autowired
     private ClientRepository clientRepository;
-	@Autowired
 	private DiaryEntryRepository diaryRepository;
 
     @Autowired
-    public HDReportService(ClientRepository clientRepository) {
+    public HDReportService(ModelMapper modelMapper,
+						   ClientRepository clientRepository,
+						   DiaryEntryRepository diaryRepository) {
+    	this.modelMapper = modelMapper;
         this.clientRepository = clientRepository;
+        this.diaryRepository = diaryRepository;
     }
 
     public List<HDClient> getClientsByHDId(String healthDepartmentId) {
@@ -36,37 +36,35 @@ public class HDReportService {
         if(clients == null) {
         	return new ArrayList<>();
         }
-        
-        List<HDClient> hdClients = clients.stream().map( client -> {
-        	
-        	HDClient hdClient = modelMapper.map(client, HDClient.class);
-        	
 
-        	
-        	List<DiaryEntry> diaryEntries =  diaryRepository.findAllByClientOrderByDateTimeDesc(client);
-        	hdClient.setDiaryEntires(diaryEntries);
-        
-        	if(!diaryEntries.isEmpty()) {
-      
-        		if(diaryEntries.get(0).getDateTime() != null) {
-        			hdClient.setDateTimeOfLastReport(diaryEntries.get(0).getDateTime().toLocalDateTime());
-        		}
-        		
-        		hdClient.setCurrentBodyTemperature(diaryEntries.get(0).getBodyTemperature());
-        		
-        	}
-        	
-        	determineStatus(hdClient);
-        	
+		return clients.stream().map(client -> {
 
-        	
-        	
-        	return hdClient;
-        
-        	
-        }).collect(Collectors.toList());
-        
-        return hdClients;
+			HDClient hdClient = modelMapper.map(client, HDClient.class);
+
+
+
+			List<DiaryEntry> diaryEntries =  diaryRepository.findAllByClientOrderByDateTimeDesc(client);
+			hdClient.setDiaryEntires(diaryEntries);
+
+			if(!diaryEntries.isEmpty()) {
+
+				if(diaryEntries.get(0).getDateTime() != null) {
+					hdClient.setDateTimeOfLastReport(diaryEntries.get(0).getDateTime().toLocalDateTime());
+				}
+
+				hdClient.setCurrentBodyTemperature(diaryEntries.get(0).getBodyTemperature());
+
+			}
+
+			determineStatus(hdClient);
+
+
+
+
+			return hdClient;
+
+
+		}).collect(Collectors.toList());
     }
 
 	private void determineStatus(HDClient hdClient) {

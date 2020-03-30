@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SymptomMDController {
 	
-	@Autowired
 	private SymptomRepository repo;
-	
+
+	@Autowired
+	public SymptomMDController(SymptomRepository repo) {
+		this.repo = repo;
+	}
+
 	/**
 	 * Returns all symptom entries. Should be used as master-data for other api calls;
 	 * @return
