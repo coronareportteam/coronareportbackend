@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @RestController
-public class SymptomDiaryController {
+public class DiaryEntryController {
 
 	private DiaryEntryRepository diaryEntryRepository;
 	private ClientRepository userRepository;
@@ -53,12 +53,12 @@ public class SymptomDiaryController {
 	private HealthDepartmentRepository healthDepartmentRepository;
 
 	@Autowired
-	public SymptomDiaryController(DiaryEntryRepository diaryEntryRepository,
-								  ClientRepository userRepository,
-								  ContactPersonRepository contactPersonRepository,
-								  SymptomRepository symptomRepository,
-								  ModelMapper modelMapper,
-								  HealthDepartmentRepository healthDepartmentRepository) {
+	public DiaryEntryController(DiaryEntryRepository diaryEntryRepository,
+								ClientRepository userRepository,
+								ContactPersonRepository contactPersonRepository,
+								SymptomRepository symptomRepository,
+								ModelMapper modelMapper,
+								HealthDepartmentRepository healthDepartmentRepository) {
 		this.diaryEntryRepository = diaryEntryRepository;
 		this.userRepository = userRepository;
 		this.contactPersonRepository = contactPersonRepository;
