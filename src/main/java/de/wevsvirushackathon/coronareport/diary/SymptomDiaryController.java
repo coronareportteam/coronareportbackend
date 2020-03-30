@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.symptomes;
+package de.wevsvirushackathon.coronareport.diary;
 
 import java.text.ParseException;
 import java.util.*;
@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
+import de.wevsvirushackathon.coronareport.symptomes.Symptom;
+import de.wevsvirushackathon.coronareport.symptomes.SymptomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
