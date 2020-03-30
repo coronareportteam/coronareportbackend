@@ -1,5 +1,6 @@
-package de.wevsvirushackathon.coronareport.diary;
+package de.wevsvirushackathon.coronareport.examination;
 
+import de.wevsvirushackathon.coronareport.diary.TypeOfExamination;
 import lombok.Data;
 
 import javax.persistence.Entity;
