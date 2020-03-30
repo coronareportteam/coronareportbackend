@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
 import de.wevsvirushackathon.coronareport.firstReport.FirstReport;
@@ -43,6 +40,6 @@ public class HDClient {
     
     private Iterable<DiaryEntry> diaryEntires  = new ArrayList<>();
     
-    private List<ContactPerson> contacts = new ArrayList();
+    private List<ContactPerson> contacts = new ArrayList<>();
 
 }
