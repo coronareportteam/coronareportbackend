@@ -1,18 +1,22 @@
 package de.wevsvirushackathon.coronareport.firstReport;
 
-import de.wevsvirushackathon.coronareport.user.Client;
-import lombok.Data;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FirstReport {
-
-
-
 
     @Id
     @GeneratedValue

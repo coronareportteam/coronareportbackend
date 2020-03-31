@@ -3,7 +3,7 @@ package de.wevsvirushackathon.coronareport.contactperson;
 import com.sun.istack.NotNull;
 import de.wevsvirushackathon.coronareport.diary.TypeOfContract;
 import de.wevsvirushackathon.coronareport.diary.TypeOfProtection;
-import de.wevsvirushackathon.coronareport.user.Client;
+import de.wevsvirushackathon.coronareport.client.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
