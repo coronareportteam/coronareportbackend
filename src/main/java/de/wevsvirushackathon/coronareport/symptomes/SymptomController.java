@@ -1,19 +1,26 @@
 package de.wevsvirushackathon.coronareport.symptomes;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @RestController
 public class SymptomController {
 	
 	private SymptomRepository repo;
+	private ModelMapper modelMapper;
 
 	@Autowired
-	public SymptomController(SymptomRepository repo) {
+	public SymptomController(SymptomRepository repo, ModelMapper modelMapper) {
 		this.repo = repo;
+		this.modelMapper = modelMapper;
 	}
 
 	/**
@@ -21,28 +28,35 @@ public class SymptomController {
 	 * @return
 	 */
 	@GetMapping("/symptoms")
-	public Iterable<Symptom> getSymptoms() {
-		return repo.findAll();
+	public List<SymptomDto> getSymptoms() {
+		return StreamSupport.stream(repo.findAll().spliterator(), false)
+				.map(x -> modelMapper.map(x, SymptomDto.class)).collect(Collectors.toList());
 	}
 
 	/**
 	 * Stores a new Symptom
-	 * @param symptom
+	 * @param symptomDto
 	 * @return
 	 */
 	@PostMapping("/symptom")
-	public Symptom addSymptom(@RequestBody Symptom symptom) {
-		return this.repo.save(symptom);
+	public SymptomDto addSymptom(@RequestBody SymptomDto symptomDto) {
+		final Symptom symptom = modelMapper.map(symptomDto, Symptom.class);
+		return this.modelMapper.map(this.repo.save(symptom), SymptomDto.class);
 	}
 
 	/**
 	 * Stores an array
-	 * @param symptom
+	 * @param symptomDtos
 	 * @return
 	 */
 	@PostMapping("/symptoms")
-	public Iterable<Symptom> addSymptoms(@RequestBody Iterable<Symptom> symptoms) {
-		return this.repo.saveAll(symptoms);
+	public Iterable<SymptomDto> addSymptoms(@RequestBody List<SymptomDto> symptomDtos) {
+		final List<Symptom> symtoms = symptomDtos.stream()
+				.map(x -> modelMapper.map(x, Symptom.class))
+				.collect(Collectors.toList());
+		final Iterable<Symptom> updatedSymptoms = this.repo.saveAll(symtoms);
+		return StreamSupport.stream(repo.findAll().spliterator(), false)
+				.map(x -> modelMapper.map(x, SymptomDto.class)).collect(Collectors.toList());
 	}
 
 }
