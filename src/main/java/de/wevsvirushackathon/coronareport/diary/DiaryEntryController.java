@@ -1,4 +1,4 @@
-package de.wevsvirushackathon.coronareport.symptomes;
+package de.wevsvirushackathon.coronareport.diary;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -28,13 +28,11 @@ import de.wevsvirushackathon.coronareport.client.Client;
 import de.wevsvirushackathon.coronareport.client.ClientRepository;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoIn;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoOut;
-import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
 import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
 import de.wevsvirushackathon.coronareport.infrastructure.errorhandling.RequestArgumentNotReadableException;
+import de.wevsvirushackathon.coronareport.symptomes.Symptom;
+import de.wevsvirushackathon.coronareport.symptomes.SymptomRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -47,7 +45,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 @RestController
-public class SymptomDiaryController {
+public class DiaryEntryController {
 
 	private DiaryEntryRepository diaryEntryRepository;
 	private ClientRepository userRepository;
@@ -57,12 +55,12 @@ public class SymptomDiaryController {
 	private HealthDepartmentRepository healthDepartmentRepository;
 
 	@Autowired
-	public SymptomDiaryController(DiaryEntryRepository diaryEntryRepository,
-								  ClientRepository userRepository,
-								  ContactPersonRepository contactPersonRepository,
-								  SymptomRepository symptomRepository,
-								  ModelMapper modelMapper,
-								  HealthDepartmentRepository healthDepartmentRepository) {
+	public DiaryEntryController(DiaryEntryRepository diaryEntryRepository,
+								ClientRepository userRepository,
+								ContactPersonRepository contactPersonRepository,
+								SymptomRepository symptomRepository,
+								ModelMapper modelMapper,
+								HealthDepartmentRepository healthDepartmentRepository) {
 		this.diaryEntryRepository = diaryEntryRepository;
 		this.userRepository = userRepository;
 		this.contactPersonRepository = contactPersonRepository;

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-public class SymptomDiaryControllerIT {
+public class DiaryEntryControllerIT {
 
     @Autowired
     private MockMvc mvc;
