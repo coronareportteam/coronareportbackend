@@ -1,14 +1,19 @@
 package de.wevsvirushackathon.coronareport.symptomes;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
-import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
+import javax.servlet.http.HttpServletResponse;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,20 +24,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.wevsvirushackathon.coronareport.client.Client;
+import de.wevsvirushackathon.coronareport.client.ClientRepository;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPerson;
 import de.wevsvirushackathon.coronareport.contactperson.ContactPersonRepository;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntry;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoIn;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryDtoOut;
 import de.wevsvirushackathon.coronareport.diary.DiaryEntryRepository;
-import de.wevsvirushackathon.coronareport.client.Client;
-import de.wevsvirushackathon.coronareport.client.ClientRepository;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartment;
+import de.wevsvirushackathon.coronareport.healthdepartment.HealthDepartmentRepository;
+import de.wevsvirushackathon.coronareport.infrastructure.errorhandling.RequestArgumentNotReadableException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * The controller for creating, updating and reading of diaryEntries by a client
@@ -104,6 +110,7 @@ public class SymptomDiaryController {
 	 *                      or by the application after first registration
 	 * @param diaryEntryDto
 	 * @return
+	 * @throws RequestArgumentNotReadableException 
 	 * @throws ParseException
 	 */
 	@ApiOperation(value = "Updates an existing  diary entry")
@@ -117,13 +124,13 @@ public class SymptomDiaryController {
 	public ResponseEntity<?> updateEntry(
 			@ApiParam(value = "The header variable containing the client-code", required = true) @RequestHeader("client-code") String clientCode,
 			@ApiParam(value = "The DiaryEntry to be updated", required = true) @RequestBody DiaryEntryDtoIn diaryEntryDto,
-			@ApiParam(value = "The id of the entity that should be updated", required = true)  @PathVariable String id){
+			@ApiParam(value = "The id of the entity that should be updated", required = true)  @PathVariable String id, HttpInputMessage message) throws RequestArgumentNotReadableException{
 		
 		
 		// check if pathId and body id match
 		int diaryEntryId = (int) Integer.parseInt(id);
 		if(diaryEntryId != diaryEntryDto.getId()) {
-			return ResponseEntity.badRequest().build();
+			throw new RequestArgumentNotReadableException("{id}", "Given id is no integer");
 		}
 		
 		// check if diaryentry exists
