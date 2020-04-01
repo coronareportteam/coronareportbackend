@@ -17,6 +17,15 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import de.wevsvirushackathon.coronareport.diary.ClientNotAuthorizedException;
+
+/**
+ * Overrides basic Spring Exception Handling Entries to provide better error
+ * responses to API users
+ * 
+ * @author Patrick Otto
+ *
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -33,7 +42,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 		String error = "Path variable is missing";
 		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
-
 	}
 
 	@Override
@@ -60,15 +68,26 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
 		return new ResponseEntity<>(apiError, apiError.getStatus());
 	}
-	
-	
 
 	// custom exception handlers below
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
-		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
-		apiError.setMessage(ex.getMessage());
+		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "Entity not found", ex);
+		return buildResponseEntity(apiError);
+	}
+
+	@ExceptionHandler(InvalidArgumentException.class)
+	protected ResponseEntity<Object> handleInvalidArgument(InvalidArgumentException ex) {
+		String error = "'" + ex.getValue() + "' is no valid value for " + ex.getType() + " " + ex.getArgumentName();
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, error, ex);
+		return buildResponseEntity(apiError);
+	}
+
+	@ExceptionHandler(ClientNotAuthorizedException.class)
+	protected ResponseEntity<Object> handleClientNotAuthorized(ClientNotAuthorizedException ex) {
+		String error = "Client with client-code '" + ex.getClientCode() + " is not authorized";
+		ApiError apiError = new ApiError(HttpStatus.FORBIDDEN, error, ex);
 		return buildResponseEntity(apiError);
 	}
 
