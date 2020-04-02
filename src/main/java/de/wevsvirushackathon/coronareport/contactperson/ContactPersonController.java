@@ -1,11 +1,23 @@
 package de.wevsvirushackathon.coronareport.contactperson;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import de.wevsvirushackathon.coronareport.client.Client;
 import de.wevsvirushackathon.coronareport.client.ClientRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/contact")
@@ -15,9 +27,8 @@ class ContactPersonController {
 	private ContactPersonRepository repo;
 	private ModelMapper modelMapper;
 
-	private ContactPersonController(final ContactPersonRepository repo,
-									final ClientRepository clientRepository,
-									final ModelMapper modelMapper) {
+	private ContactPersonController(final ContactPersonRepository repo, final ClientRepository clientRepository,
+			final ModelMapper modelMapper) {
 		this.repo = repo;
 		this.clientRepository = clientRepository;
 		this.modelMapper = modelMapper;
@@ -36,7 +47,7 @@ class ContactPersonController {
 
 	@PostMapping("/")
 	public ContactPersonDto addContactPerson(@RequestBody ContactPersonDto contactPersonDto,
-											 @RequestHeader("client-code") String clientCode) {
+			@RequestHeader("client-code") String clientCode) {
 		final Client client = clientRepository.findByClientCode(clientCode);
 		final ContactPerson contactPerson = modelMapper.map(contactPersonDto, ContactPerson.class);
 		contactPerson.setClient(client);
@@ -47,8 +58,7 @@ class ContactPersonController {
 
 	@PutMapping("/{contactId}")
 	public ContactPersonDto updateContactPerson(@RequestBody ContactPersonDto contactPersonDto,
-												@RequestHeader("client-code") String clientCode,
-												@PathVariable("contactId") Long contactId) {
+			@RequestHeader("client-code") String clientCode, @PathVariable("contactId") Long contactId) {
 		final Client client = clientRepository.findByClientCode(clientCode);
 		final ContactPerson contactPerson = modelMapper.map(contactPersonDto, ContactPerson.class);
 		contactPerson.setClient(client);
@@ -58,8 +68,13 @@ class ContactPersonController {
 	}
 
 	@GetMapping("/{contactId}")
-	public ContactPersonDto getContactById(@PathVariable("contactId") Long contactId) {
-		// TODO: NotFound check
-		return modelMapper.map(this.repo.findById(contactId).get(), ContactPersonDto.class);
+	public ResponseEntity<ContactPersonDto> getContactById(@PathVariable("contactId") Long contactId) {
+
+		Optional<ContactPerson> contactOptional = this.repo.findById(contactId);
+
+		return contactOptional.map(contact -> ResponseEntity.ok(modelMapper.map(contact, ContactPersonDto.class)))
+				.orElseGet(() -> {
+					throw new EntityNotFoundException("Contact with id '" + contactId + "' does not exist");
+				});
 	}
 }
